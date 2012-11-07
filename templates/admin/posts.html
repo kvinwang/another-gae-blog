@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Posts Management{% endblock %}
+
+{% block admin_content %}
+
+<div id="posts_container" class="span10 offset1">
+    {% if alert_message %}
+        <div class="alert alert-info">
+            <a class="close" data-dismiss="alert">&times;</a>
+            <strong>Information!</strong> {{ alert_message }}
+        </div>
+    {% endif %}
+
+    <table class="table table-hover">
+        <caption><h3 class="pull-left">All Posts for Your Blog:</h3></caption>
+        <thead class="">
+            <tr>
+                <td>Title</td>
+                <td>Date</td>
+                <td>Published?</td>
+                <td>Operations</td>
+            </tr>
+        </thead>
+        <tbody>
+    {% for post in posts %}
+        <tr class="">
+            <td>{{ post.title }}</td>
+            <td>{{ post.date }}</td>
+            <td>{{ post.is_external_page }}</td>
+            <td>
+                <div class="btn-group">
+                    <a class="btn btn-mini btn-info" href="/admin/posts/{{post.key().id()}}/edit">Edit</a>
+                    {% if post.is_external_page %}
+                    <a class="btn btn-mini btn-info" href="/admin/posts/{{post.key().id()}}/unpublish">unPublish</a>
+                    {% else %}
+                    <a class="btn btn-mini btn-info" href="/admin/posts/{{post.key().id()}}/publish">Publish</a>
+                    {% endif %}
+                    <a class="btn btn-mini btn-danger" href="/admin/posts/{{post.key().id()}}/delete">Delete</a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+
+<form class="form-horizontal" action="/admin/posts" method="post">
+    <fieldset>
+        <legend>Compose your blog:</legend>
+        <div class="control-group">
+            <label class="control-label" for="blog_title">Title</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="blog_title" value="{% if current_post %}{{current_post.title}}{% endif %}">
+                <p class="help-block">Blog title</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="blog_slug">Slug</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="blog_slug"value="{% if current_post %}{{current_post.slug}}{% endif %}">
+                <p class="help-block">Brief title which will be used as part of URL</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="blog_categories">Categories</label>
+            <div class="controls">
+                <select multiple="multiple" name="blog_categories">
+                    <option>cat 1</option>
+                    <option>cat 2</option>
+                    <option>cat 3</option>
+                    <option>cat 4</option>
+                    <option>cat 5</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="blog_content">Content</label>
+            <div class="controls">
+                <textarea class="ckeditor" name="blog_content" rows="50">{% if current_post %}{{current_post.content}}{% endif %}</textarea>
+            </div>
+        </div>
+        <div class="form-actions">
+            <input type="hidden" class="" name="current_post_id" value="{% if current_post %} {{ current_post.key().id() }} {% endif %}">
+            <button type="submit" class="btn" name="submit_action">Save</button>
+            <button type="submit" class="btn btn-primary" name="submit_action">Save & Publish</button>
+        </div>
+    </fieldset>
+</form>                
+</div><!-- posts_container -->
+
+{% endblock %}

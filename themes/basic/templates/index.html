@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}Entries of all blog {% endblock %}
+
+{% block blog_entries %}
+{% if entries %}
+
+{% for entry in entries %}
+
+<div class="ctop"></div>
+<div class="box">
+<div id="post-{{entry.key}}">
+<div class="nifty"><h2><a href="/{{ entry.link }}" rel="bookmark" title="Permanent Link to {{entry.title}}">{{entry.title}}</a> <span class="date">{{entry.date}}</span></h2></div>
+
+
+<div class="en_body">
+{{entry.content}}
+</div>
+
+<div class="meta">{% if entry.strtags %}Tags: {%for tag in entry.tags%}<a href="/tag/{{tag}}">{{tag}}</a> {%endfor%}<br><br>{%endif%}  Posted in {%for cate in entry.categories%} <a href="/category/{{cate.slug}}">{{cate.name}}</a> {%endfor%} | {%if self.is_admin%}<a href="{{entry.edit_url}}">Edit</a> | {%endif%}  <a href="/{{entry.link}}#comments">Comments({{entry.commentcount}})&#187;</a></div>
+</div>
+
+</div>
+<div class="cbottom"></div>
+<div class="space"></div>
+{% endfor %}
+
+
+<div class="pagination pagination-right pagination-small">
+	<ul>
+		<li class="disabled"><a href="X">Prev</a></li>
+		<li class="active"><a href="X">1</a></li>
+		<li><a href="X">2</a></li>
+		<li><A>...</A></li>
+		<li><a href="X">20</a></li>
+		<li><a href="X">21</a></li>
+		<li><a href="X">Next</a></li>
+	</ul>
+</div>
+
+{% else %}
+<div class="ctop"></div>
+<div class="box">
+<h2>Not Found</h2>
+<p>Sorry, but you are looking for something that isn't here.</p>
+</div>
+<div class="clear"></div>
+<div class="cbottom"></div>
+<div class="space"></div>
+
+{% endif %}
+
+{% endblock %}
+
+

@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Links Management{% endblock %}
+
+{% block admin_content %}
+<div id="links_container" class="span8 offset2">
+
+{% if alert_message %}
+    <div class="alert alert-info">
+        <a class="close" data-dismiss="alert">&times;</a>
+        <strong>Information!</strong> {{ alert_message }}
+    </div>
+{% endif %}
+
+<table class="table table-hover">
+    <caption><h3 class="pull-left">External links for this website:</h3></caption>
+    <thead class="">
+        <tr>
+            <td>Title</td>
+            <td>Target</td>
+            <td>created_at</td>
+            <td>Sequence</td>
+            <td>Operations</td>
+        </tr>
+    </thead>
+    <tbody>
+{% for link in links %}
+    <tr class="">
+        <td>{{ link.title }}</td>
+        <td>{{ link.target }}</td>
+        <td>{{ link.date }}</td>
+        <td>{{ link.sequence }}</td>
+        <td>
+            <div class="btn-group">
+                <a class="btn btn-mini btn btn-info" href="/admin/links/{{link.key().id()}}/edit">Edit</a>
+                <a class="btn btn-mini btn-danger" href="/admin/links/{{link.key().id()}}/delete">Delete</a>
+            </div>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+    
+<form class="form-horizontal" action="/admin/links" method="post">
+    <fieldset>
+        <legend><h3>Add new link:</h3></legend>
+        <div class="control-group">
+            <label class="control-label" for="link_title">Title</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="link_title" value="{% if current_link %}{{ current_link.title }}{% endif %}">
+                <span class="help-inline">Shown name</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="link_target">Target</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="link_target" value="{% if current_link %}{{ current_link.target }}{% endif %}">
+                <span class="help-inline">Target URL</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="link_sequence">Sequence</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="link_sequence" value="{% if current_link %}{{ current_link.sequence }}{% endif %}">
+                <span class="help-inline">Used to sort all links</span>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                {% if current_link %} Update {% else %} Save {% endif %}</button>
+            <input type="hidden" name="current_link_id" value="{% if current_link %}{{ current_link.key().id() }}{% endif %}">
+        </div>
+    </fieldset>
+</form>                
+</div><!-- links_container -->
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block admin_content %}
+
+  <div class="span8 offset2">
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="hero-unit alert-info">
+      <h3>Information!</h3>
+      <p>{{ alert_message }}</p>
+      <p>Your page will be redirected soon:</p>
+      <div id="counter" style="align:center;"></div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_js_block %} 
+    <script src="/static/js/jquery.countdown.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      $(function(){
+        $('#counter').countdown({
+          image: '/static/images/digits.png',
+          startTime: '3',
+          timerEnd: function(){ window.location="{{ redirect_location }}"; },
+          format: 's'
+        });
+      });
+    </script>
+{% endblock %}
+
