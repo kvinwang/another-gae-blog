@@ -1,53 +1,34 @@
 {% extends "layout.html" %}
 
 {% block admin_content %}
+
+<table class="table table-hover">
+  <caption>Blog Status Summary</caption>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Counts</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Blog</td>
+      <td>{{ blog_count }} </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Comment</td>
+      <td>{{ blog_count }} </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Links</td>
+      <td>{{ blog_count }} </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
     
-<form class="form-horizontal" action="/admin/post" method="post">
-                    <fieldset>
-                        <legend>Compose your blog:</legend>
-                        <div class="control-group">
-                            <label class="control-label" for="blog_title">Title</label>
-                            <div class="controls">
-                                <input type="text" class="input-xlarge" name="blog_title">
-                                <p class="help-block">Blog title</p>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="blog_slug">Slug</label>
-                            <div class="controls">
-                                <input type="text" class="input-xlarge" name="blog_slug">
-                                <p class="help-block">Brief title which will be used as part of URL</p>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="blog_categories">Categories</label>
-                            <div class="controls">
-                                <select multiple="multiple" name="blog_categories">
-                                    <option>cat 1</option>
-                                    <option>cat 2</option>
-                                    <option>cat 3</option>
-                                    <option>cat 4</option>
-                                    <option>cat 5</option>
-                                </select>
-                            </div>
-                        </div>
-<!--                         <div class="control-group">
-                            <label class="control-label" for="fileInput">File input</label>
-                            <div class="controls">
-                                <input class="input-file" name="fileInput" type="file">
-                            </div>
-                        </div>
- -->                        <div class="control-group">
-                            <label class="control-label" for="blog_content">Content</label>
-                            <div class="controls">
-                                <textarea class="ckeditor" name="blog_content" rows="50"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn">Save</button>
-                            <button type="submit" class="btn btn-primary">Save & Publish</button>
-                        </div>
-                    </fieldset>
-                </form>                
-            </div>
 {% endblock %}
