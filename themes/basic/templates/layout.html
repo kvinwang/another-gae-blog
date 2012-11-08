@@ -1,74 +1,74 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
-	<title>{% block title %} {{ blog.title }}{% endblock %}</title>		
-	<!-- styles -->
-	<link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css"  media="screen">
-	<link rel="stylesheet" type="text/css" href="/static/css/weblog.css">
+    <title>{% block title %} {{ blog.title }}{% endblock %}</title>        
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css"  media="screen">
+    <link rel="stylesheet" type="text/css" href="/static/css/weblog.css">
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="/static/ico/favicon.ico">		
-	<meta charset="utf-8">  
-	{% block head_block %}{% endblock %}  
+    <link rel="shortcut icon" href="/static/ico/favicon.ico">        
+    <meta charset="utf-8">  
+    {% block head_block %}{% endblock %}  
 </head>
 <body>
-	<div class="container">
-		<div class="masthead">
-			<div class="navbar navbar-inverse">
-			  <div class="navbar-inner">
-			    <a class="brand" href="#">WEBlog</a>
-				<form class="navbar-search pull-right"  action="https://www.google.com/search"> 
-				  <input type="text" class="search-query" placeholder="Search" name="q">
-				  <input type="hidden"  name="sitesearch" value="blog.zfdang.com">
-				</form>			    
-			    <ul class="nav pull-right">
-			    	<li class="active"><a href="#">Home</a></li>
-					<li><a href="#">Code</a></li>
-					<li><a href="#">Link</a></li>
-					<li class="divider-vertical"></li>
-					<li class="dropdown">
-		                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-		                	More<b class="caret"></b>
-		                </a>
-		                <ul class="dropdown-menu">
-		                  <li><a href="/admin/">Admin</a></li>
-		                  <li><a href="/rss/">(RSS)</a></li>
-		                  <li><a href="#">Something else here</a></li>
-		                  <li class="divider"></li>
-		                  <li><a href="#">Separated link</a></li>
-		                </ul>
-		            </li>
-			    </ul>
-			  </div>
-			</div><!-- navbar -->		
-		</div><!-- masthead -->
-		<div class="row">
-			<div class="span10">
+    <div class="container">
+        <div class="masthead">
+            <div class="navbar navbar-inverse">
+              <div class="navbar-inner">
+                <a class="brand" href="/">WEBlog</a>
+                <form class="navbar-search pull-right"  action="https://www.google.com/search"> 
+                  <input type="text" class="search-query" placeholder="Search" name="q">
+                  <input type="hidden"  name="sitesearch" value="blog.zfdang.com">
+                </form>                
+                <ul class="nav pull-right">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Code</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="divider-vertical"></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            More<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a href="/admin/">Admin</a></li>
+                          <li><a href="/rss/">(RSS)</a></li>
+                          <li><a href="#">Something else here</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+              </div>
+            </div><!-- navbar -->        
+        </div><!-- masthead -->
+        <div class="row">
+            <div class="span10">
 {% block blog_entries %} {% endblock %}
-			</div> <!-- span10 -->
-			<div class="span2">
-				<ul class="nav nav-list pull-center">
-					<li class="nav-header">Categories</li>
-					{% for category in categories %}
-						<li><A href="">{{ category.name }}</a></li>
-					{% endfor %}
-				</ul>
-				<br/>
-				<ul class="nav nav-list pull-center">
-					<li class="nav-header">Links</li>
-					{% for link in links %}
-						<li><A href="{{ link.target }}">{{ link.title }} </a></li>
-					{% endfor %}
-				</ul>
-			</div> 
-		</div> <!-- row -->
-	    <div id="footer">
-			<div class="container pull-left span11">
-	        	<p class="muted credit">&copy; zfdang 2012. Powered by <a href="http://xuming.net">WEBlog</a>.</p>
-	      	</div>
-	      	<div class="pull-right span1"><a href="#top" title="Top">TOP</a></div>
-	    </div>
-	</DIV> <!-- container -->
-	<!-- loading js script at the end -->
+            </div> <!-- span10 -->
+            <div class="span2">
+                <ul class="nav nav-list pull-center">
+                    <li class="nav-header">Categories</li>
+                    {% for category in categories %}
+                        <li><A href="">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                <br/>
+                <ul class="nav nav-list pull-center">
+                    <li class="nav-header">Links</li>
+                    {% for link in links %}
+                        <li><A href="{{ link.target }}">{{ link.title }} </a></li>
+                    {% endfor %}
+                </ul>
+            </div> 
+        </div> <!-- row -->
+        <div id="footer">
+            <div class="container pull-left span11">
+                <p class="muted credit">&copy; zfdang 2012. Powered by <a href="http://xuming.net">WEBlog</a>.</p>
+              </div>
+              <div class="pull-right span1"><a href="#top" title="Top">TOP</a></div>
+        </div>
+    </DIV> <!-- container -->
+    <!-- loading js script at the end -->
     <script type="text/javascript" src="/static/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
     <!-- load other js codes -->

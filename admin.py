@@ -15,7 +15,7 @@ from model import Entry, Link
 import logging
 
 # load modules defined by this app
-from utilities import render_template, dump
+from utilities import render_template, dump, get_safe_slug
 
 
 class Admin(RequestHandler):
@@ -63,26 +63,29 @@ class PostManager(RequestHandler):
         # add new post or edit existed post
         current_post_id = self.request.POST["current_post_id"]
         if current_post_id:
+            logging.info("PostManager: post : current_post_id = %s" % (current_post_id))
             # update existed post
             post = Entry.get_by_id(long(current_post_id))
             if post:
                 t_values['alert_message'] = "Post %s has been updated!" % (post.title)
                 post.title = self.request.POST["blog_title"]
-                post.slug = self.request.POST["blog_slug"]
+                post.slug = get_safe_slug(self.request.POST["blog_slug"])
                 post.content = self.request.POST["blog_content"]
                 post.put()
 
         else:
+            logging.info("PostManager: post : new post title %s" % (self.request.POST['blog_title']))
             # create new post
             post = Entry()
             post.title = self.request.POST["blog_title"]
-            post.slug = self.request.POST["blog_slug"]
+            post.slug = get_safe_slug(self.request.POST["blog_slug"])
             post.content = self.request.POST["blog_content"]
             # post.categories = self.request.POST["blog_categories"]
             operation = self.request.POST["submit_action"]
-            if operation == "Save & Publish":
+            logging.info("operation = %s" % (operation))
+            if operation == "save_publish":
                 post.is_external_page = True
-            else:
+            else:  # "save" operation
                 post.is_external_page = False
             post.put()
             t_values['alert_message'] = "Post %s has been created!" % (post.title)
@@ -131,7 +134,7 @@ class LinkManager(RequestHandler):
             # edit existed link
             link = Link.get_by_id(long(current_link_id))
             link.title = link_title
-            link.target =link_target
+            link.target = link_target
             link.sequence = long(link_sequence)
             link.put()
             t_values['alert_message'] = "link %s has been updated" % (link.title)

@@ -82,8 +82,8 @@
         </div>
         <div class="form-actions">
             <input type="hidden" class="" name="current_post_id" value="{% if current_post %} {{ current_post.key().id() }} {% endif %}">
-            <button type="submit" class="btn" name="submit_action">Save</button>
-            <button type="submit" class="btn btn-primary" name="submit_action">Save & Publish</button>
+            <button type="submit" class="btn" name="submit_action" value="save">Save</button>
+            <button type="submit" class="btn btn-primary" name="submit_action" value="save_publish">Save & Publish</button>
         </div>
     </fieldset>
 </form>                
