@@ -50,11 +50,6 @@ class Entry(db.Model):
     postname=''
     _relatepost=None
 
-    @property
-    def content_excerpt(self):
-        return self.get_content_excerpt(_('..more').decode('utf8'))
-
-
 
 class Category(db.Model):
     uid=db.IntegerProperty()
@@ -68,4 +63,14 @@ class Link(db.Model):
     sequence = db.IntegerProperty(required=True)
     date=db.DateTimeProperty(auto_now_add=True)
     updated_at=db.DateTimeProperty()
+
+
+class Comment(db.Model):
+    entry = db.ReferenceProperty(Entry)
+    date = db.DateTimeProperty(auto_now_add=True)
+    content = db.TextProperty(required=True)
+    author=db.StringProperty()
+    email=db.EmailProperty()
+    weburl=db.URLProperty()
+    ip=db.StringProperty()
 

@@ -14,7 +14,7 @@ from webapp2_extras.routes import RedirectRoute
 import logging
 
 # load modules defined by this app
-from model import Entry, Category, Link
+from model import Entry, Category, Link, Comment
 from utilities import render_template, dump
 
 
@@ -54,11 +54,17 @@ class PostHandler(RequestHandler):
         if post_slug:
             t_values = {}
 
-            entries = Entry.all().filter("slug =", post_slug)
-            if entries.count() == 1:
+            posts = Entry.all().filter("slug =", post_slug)
+            if posts.count() == 1:
                 logging.warning("find one post with slug=%s" % (post_slug))
-                post = entries.fetch(limit=1)
-                t_values['post'] = post[0]
+                posts = posts.fetch(limit=1)
+                post = posts[0]
+                t_values['post'] = post
+                dump(post)
+
+                # find all comments
+                comments = Comment.all().filter("entry =", post)
+                t_values['comments'] = comments
             else:
                 logging.warning("%d entries share the same slug %s" % (entries.count(), post_slug))
 
@@ -71,8 +77,47 @@ class PostHandler(RequestHandler):
         else:
             self.redirect(uri_for("weblog.index"))
 
-    def post(self):
-        pass
+    def post(self, post_slug=""):
+        if post_slug:
+            t_values = {}
+
+            post_id = self.request.POST['post_id']
+            post = Entry.get_by_id(long(post_id))
+            if post:
+                # ok, we find the post, try to add comment to this post
+                logging.warning("find one post with post_id %s" % (post_id))
+
+                t_values['post'] = post
+                dump(post)
+
+                # create comment for this post
+                comm_author = self.request.POST['author']
+                comm_email = self.request.POST['email']
+                comm_weburl = self.request.POST['weburl']
+                comm_content = self.request.POST['comment']
+                comm = Comment(entry=post, author=comm_author, email=comm_email, weburl=comm_weburl, content=comm_content)
+                comm.put()
+
+                # find all comments
+                comments = Comment.all().filter("entry=", post)
+                logging.info("PostHandler, post, find %d comments" % (comments.count()))
+                if post_id:
+                    # only update commentcount when new comment is added
+                    post.commentcount = comments.count()
+                    post.put()
+                t_values['comments'] = comments
+            else:
+                logging.warning("post_id %s does not exist" % (post_id))
+
+
+            links = Link.all().order("date")
+            t_values['links'] = links
+
+            categories = Category.all()
+            t_values['categories'] = categories
+            return self.response.out.write(render_template("post.html", t_values, "basic", False))
+        else:
+            self.redirect(uri_for("weblog.index"))
 
 
 class PageHandler(RequestHandler):

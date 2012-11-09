@@ -3,33 +3,96 @@
 {% block title %}Entries of all blog{% endblock %}
 
 {% block blog_entries %}
-	{% if post %}
-			<div class="ctop"></div>
-			<div class="box">
-			<div id="post-{{post.key}}">
-			<div class="nifty"><h2><a href="/post/{{ post.slug }}" rel="bookmark" title="Permanent Link to {{post.title}}">{{post.title}}</a> <span class="date">{{post.date}}</span></h2></div>
+    {% if post %}
+            <div class="ctop"></div>
+            <div class="box">
+            <div id="post-{{post.key().id()}}">
+            <div class="nifty"><h2><a href="/post/{{ post.slug }}" rel="bookmark" title="Permanent Link to {{post.title}}">{{post.title}}</a> <span class="date">{{post.date}}</span></h2></div>
 
 
-			<div class="en_body">
-			{{post.content}}
+            <div class="en_body">
+            {{post.content}}
+            </div>
+
+            <div class="meta">{% if post.strtags %}Tags: {%for tag in post.tags%}<a href="/tag/{{tag}}">{{tag}}</a> {%endfor%}<br><br>{%endif%}  Posted in {%for cate in post.categories%} <a href="/category/{{cate.slug}}">{{cate.name}}</a> {%endfor%} | {%if self.is_admin%}<a href="{{post.edit_url}}">Edit</a> | {%endif%}  <a href="/{{post.link}}#comments">Comments({{post.commentcount}})&#187;</a></div>
+            </div>
+
+            </div>
+            <div class="cbottom"></div>
+            <div class="space"></div>
+        
+            <!-- comments section here -->
+            <div class="box">
+                <h3 id="comments">{{ comments.count() }} Responses to "{{ post.title }}":</h3>
+                <ol class="commentlist">
+                    {% for comment in comments %}
+                    <li class="alt" id="comment-226002">
+                        <div class="comments"><a href="{{ comment.weburl }}" target="_blank">{{ comment.author }}</a> On <small class="commentmetadata">{{ comment.date }}</small>
+                        <br />
+                        <p>
+                        	{{ comment.content }}
+                        </p>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </div><!-- all comments over -->
+
+    <!-- leave comment section -->
+    <div class="box">
+
+<form class="form-horizontal" action="" method="post" id="commentform">
+	<fieldset>
+	    <h3 id="respond">Leave a Reply</h3>
+		<div class="control-group">
+			<label class="control-label" for="author">Name</label>
+			<div class="controls">
+				<input type="text" class="input-medium" id="author" name="author" placeholder="Required *">
 			</div>
-
-			<div class="meta">{% if post.strtags %}Tags: {%for tag in post.tags%}<a href="/tag/{{tag}}">{{tag}}</a> {%endfor%}<br><br>{%endif%}  Posted in {%for cate in post.categories%} <a href="/category/{{cate.slug}}">{{cate.name}}</a> {%endfor%} | {%if self.is_admin%}<a href="{{post.edit_url}}">Edit</a> | {%endif%}  <a href="/{{post.link}}#comments">Comments({{post.commentcount}})&#187;</a></div>
-			</div>
-
-			</div>
-			<div class="cbottom"></div>
-			<div class="space"></div>
-	{% else %} <!-- if entry -->
-		<div class="ctop"></div>
-		<div class="box">
-		<h2>Not Found</h2>
-		<p>Sorry, but you are looking for something that isn't here.</p>
 		</div>
-		<div class="clear"></div>
-		<div class="cbottom"></div>
-		<div class="space"></div>
-	{% endif %}<!-- end entry -->
+
+		<div class="control-group">
+			<label class="control-label" for="email">Email</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" id="email" name="email" placeholder="Your email won't be published">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="weburl">Website</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" id="weburl" name="weburl"  placeholder="click your comment will land your website">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="comment">Comment</label>
+			<div class="controls">
+				<textarea class="input-xxlarge" id="comment" name="comment" rows="5"></textarea>
+			</div>
+		</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</fieldset>
+	    <input type="hidden" name="post_id" value="{{ post.key().id() }}" />
+
+</form>
+
+
+    </div>
+
+    {% else %} <!-- if entry -->
+        <div class="ctop"></div>
+        <div class="box">
+        <h2>Not Found</h2>
+        <p>Sorry, but you are looking for something that isn't here.</p>
+        </div>
+        <div class="clear"></div>
+        <div class="cbottom"></div>
+        <div class="space"></div>
+    {% endif %}<!-- end entry -->
 
 {% endblock %}
 
