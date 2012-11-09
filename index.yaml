@@ -12,6 +12,11 @@ indexes:
 
 - kind: Comment
   properties:
+  - name: entry
+  - name: date
+
+- kind: Comment
+  properties:
   - name: entry=
   - name: date
 

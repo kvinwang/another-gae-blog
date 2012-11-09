@@ -60,10 +60,10 @@ class PostHandler(RequestHandler):
                 posts = posts.fetch(limit=1)
                 post = posts[0]
                 t_values['post'] = post
-                dump(post)
+                # dump(post)
 
                 # find all comments
-                comments = Comment.all().filter("entry =", post)
+                comments = Comment.all().filter("entry =", post).order("date")
                 t_values['comments'] = comments
             else:
                 logging.warning("%d entries share the same slug %s" % (entries.count(), post_slug))
@@ -86,9 +86,8 @@ class PostHandler(RequestHandler):
             if post:
                 # ok, we find the post, try to add comment to this post
                 logging.warning("find one post with post_id %s" % (post_id))
-
                 t_values['post'] = post
-                dump(post)
+                # dump(post)
 
                 # create comment for this post
                 comm_author = self.request.POST['author']
@@ -99,7 +98,7 @@ class PostHandler(RequestHandler):
                 comm.put()
 
                 # find all comments
-                comments = Comment.all().filter("entry=", post)
+                comments = Comment.all().filter("entry =", post).order("date")
                 logging.info("PostHandler, post, find %d comments" % (comments.count()))
                 if post_id:
                     # only update commentcount when new comment is added
