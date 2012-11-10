@@ -3,21 +3,20 @@
 {% block title %}Entries of all blog{% endblock %}
 
 {% block blog_entries %}
-	{% if entries %}
+<!-- start entry -->
+	{% if entries %} 
 		{% for post in entries %}
-{% include 'post_block.html' %}
+			{% include 'post_block.html' %}
 		{% endfor %}
+		{% if navlist %}
 		<div class="pagination pagination-right pagination-small">
 			<ul>
-				<li class="disabled"><a href="X">Prev</a></li>
-				<li class="active"><a href="X">1</a></li>
-				<li><a href="X">2</a></li>
-				<li><A>...</A></li>
-				<li><a href="X">20</a></li>
-				<li><a href="X">21</a></li>
-				<li><a href="X">Next</a></li>
+				{% for nav in navlist %}
+				<li><a href="/{{ nav[0] }}">{{nav[1]}}</a></li>
+				{% endfor %}
 			</ul>
 		</div>
+		{% endif %}
 	{% else %} <!-- if entry -->
 		<div class="ctop"></div>
 		<div class="box">
@@ -27,7 +26,8 @@
 		<div class="clear"></div>
 		<div class="cbottom"></div>
 		<div class="space"></div>
-	{% endif %}<!-- end entry -->
+	{% endif %}
+<!-- end entry -->
 
 {% endblock %}
 

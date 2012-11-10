@@ -14,23 +14,57 @@ from webapp2_extras.routes import RedirectRoute
 import logging
 import sys
 
+
 # load modules defined by this app
 from model import Entry, Category, Link, Comment
 from utilities import render_template, dump
 from captcha import submit, displayhtml, RecaptchaResponse
+from config import Configuration
+
+
+def generateNavList(total_posts, current_page, posts_per_page):
+    navlist = []
+    if total_posts > posts_per_page:
+        # we need more than one pages
+        total_pages = total_posts / posts_per_page
+        if (total_posts % posts_per_page) != 0:
+            total_pages += 1
+        logging.info("total pages = %d" % (total_pages))
+        # generate links
+        for page_number in range(1, total_pages+1):
+            if page_number != current_page:
+                navlist.append((page_number, "%d" % (page_number)))
+
+        if current_page > 1:
+            navlist.insert(0, (current_page - 1, "Prev"))
+        if current_page < total_pages:
+            navlist.append((current_page + 1, "Next"))
+    return navlist
 
 class IndexHandler(RequestHandler):
     '''
     classdocs
     '''
-    def get(self):
+    def get(self, page="1"):
         t_values = {}
+        page = int(page)
+        logging.info("IndexHandler, get, page = %d" % (page))
 
         # find all entries by order
-        entries = Entry.all().filter("is_external_page =", True).order("-date")
+        query = Entry.all().filter("is_external_page =", True).order("-date")
+        total_posts = query.count()
+        q_limit = Configuration["posts_per_page"]
+        q_offset = (page - 1) * Configuration["posts_per_page"]
+        logging.info("limit = %d, offset = %d" % (q_limit, q_offset))
+
+        entries = query.fetch(limit=q_limit, offset=q_offset)
         for entry in entries:
             logging.info("entry title: %s, is_external_page = %s" % (entry.title, entry.is_external_page))
         t_values['entries'] = entries
+
+        logging.info("total posts = %d, current_page = %d, posts_per_page = %d" % (total_posts, page, Configuration['posts_per_page']))
+        t_values['navlist'] = generateNavList(total_posts, page, Configuration["posts_per_page"])
+        logging.info(t_values['navlist'])
 
         # find all links
         links = Link.all().order("date")
@@ -183,6 +217,7 @@ class InitBlog(RequestHandler):
 # define routers
 routes = [
           Route('/', handler='weblog.IndexHandler', name="weblog.index"),
+          Route('/<page:\d+>', handler='weblog.IndexHandler', name="weblog.index.page"),
           Route('/page/<page_slug>', handler='weblog.PageHandler', name="weblog.page"),
           Route('/post/<post_slug>', handler='weblog.PostHandler', name="weblog.post"),
           Route('/init', handler='weblog.InitBlog', name="init"),
