@@ -15,7 +15,7 @@
         <div class="masthead">
             <div class="navbar navbar-inverse">
               <div class="navbar-inner">
-                <a class="brand" href="/">WEBlog</a>
+                <a class="brand" href="/"><i class="icon-home"></i>WEBlog</a>
                 <form class="navbar-search pull-right"  action="https://www.google.com/search"> 
                   <input type="text" class="search-query" placeholder="Search" name="q">
                   <input type="hidden"  name="sitesearch" value="blog.zfdang.com">
@@ -56,14 +56,14 @@
                 <ul class="nav nav-list pull-center">
                     <li class="nav-header">Links</li>
                     {% for link in links %}
-                        <li><A href="{{ link.target }}">{{ link.title }} </a></li>
+                        <li><A href="{{ link.target }}" target="_blank">{{ link.title }} </a></li>
                     {% endfor %}
                 </ul>
             </div> 
         </div> <!-- row -->
         <div id="footer">
             <div class="container pull-left span11">
-                <p class="muted credit">&copy; zfdang 2012. Powered by <a href="http://xuming.net">WEBlog</a>.</p>
+                <p class="muted credit">&copy; zfdang 2012. Powered by <a href="https://code.google.com/p/another-gae-blog">WEBlog</a>.</p>
               </div>
               <div class="pull-right span1"><a href="#top" title="Top">TOP</a></div>
         </div>

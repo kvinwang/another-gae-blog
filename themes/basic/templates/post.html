@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Entries of all blog{% endblock %}
+{% block title %}{% if post %} {{ post.title }} {% else %}Invalid Post{% endif %}{% endblock %}
 
 {% block blog_entries %}
 
@@ -21,30 +21,35 @@
 
 {% include 'post_block.html' %}
         
-            <!-- comments section here -->
-            <div class="box">
-                <h3 id="comments">{{ comments.count() }} Responses to "{{ post.title }}":</h3>
-                <ol class="commentlist">
-                    {% for comment in comments %}
-                    <li class="alt" id="comment-226002">
-                        <div class="comments"><a href="{{ comment.weburl }}" target="_blank">{{ comment.author }}</a> On <small class="commentmetadata">{{ comment.date }}</small>
-                        <br />
-                        <p>
-                        	{{ comment.content }}
-                        </p>
-                        </div>
-                        <div class="clear"></div>
-                    </li>
-                    {% endfor %}
-                </ol>
-            </div><!-- all comments over -->
+    <!-- comments section here -->
+    <div class="ctop"></div>
+    <div class="box">
+        <h4 id="comments">{{ comments.count() }} Responses to "{{ post.title }}":</h4>
+        <ol class="commentlist">
+            {% for comment in comments %}
+            <li class="alt" id="comment-226002">
+                <div class="comments"><a href="{{ comment.weburl }}" target="_blank">{{ comment.author }}</a> On <small class="commentmetadata">{{ comment.date|datetime }}</small>
+                <br />
+                <p>
+                	{{ comment.content }}
+                </p>
+                </div>
+                <div class="clear"></div>
+		        <div class="space"></div>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+    <div class="cbottom"></div>
+    <div class="space"></div>
+    <!-- all comments over -->
 
     <!-- leave comment section -->
+    <div class="ctop"></div>
     <div class="box">
-
-<form class="form-horizontal" action="" method="post" id="commentform">
+	<form class="form-horizontal" action="" method="post" id="commentform">
 	<fieldset>
-	    <h3 id="respond">Leave a Reply</h3>
+	    <h4 id="respond">Leave a Reply</h4>
 		<div class="control-group">
 			<label class="control-label" for="author">Name</label>
 			<div class="controls">
@@ -78,10 +83,10 @@
 			<label class="control-label" for="comment">reCAPTCHA</label>
 			<div class="controls">
 			  <script type="text/javascript"
-			     src="https://www.google.com/recaptcha/api/challenge?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF">
+			     src="http://www.google.com/recaptcha/api/challenge?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF">
 			  </script>
 			  <noscript>
-			     <iframe src="https://www.google.com/recaptcha/api/noscript?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF"
+			     <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF"
 			         height="300" width="500" frameborder="0"></iframe><br>
 			     <textarea name="recaptcha_challenge_field" rows="3" cols="40">
 			     </textarea>
@@ -93,15 +98,13 @@
 	  	<!-- google recaptcha -->
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary">Add Comment</button>
 		</div>
 	</fieldset>
-	    <input type="hidden" name="post_id" value="{{ post.key().id() }}" />
-
-</form>
-
-
-    </div>
+	<input type="hidden" name="post_id" value="{{ post.key().id() }}" />
+	</form>
+    </div> <!-- end of box //-->
+    <div class="cbottom"></div>
 
     {% else %} <!-- if entry -->
         <div class="ctop"></div>
@@ -115,5 +118,3 @@
     {% endif %}<!-- end entry -->
 
 {% endblock %}
-
-

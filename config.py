@@ -1,5 +1,5 @@
 # configuration file for weblog
 
 Configuration = {
-"posts_per_page": 3,
+"posts_per_page": 10,
 }

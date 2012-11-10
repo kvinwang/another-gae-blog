@@ -6,10 +6,19 @@ Created on 2012-9-5
 
 import jinja2, os, logging
 from google.appengine.api import memcache
+from webapp2_extras import i18n 
+
+
+# jinja2 filters
+def format_datetime(value, format='medium'):
+    if format == 'full':
+        format = "EEEE, d. MMMM y 'at' HH:mm"
+    elif format == 'medium':
+        format = "%H:%M %Y-%m-%d"
+    return value.strftime(format)
 
 
 # template loader
-
 def render_template(template_file, template_values={}, theme_name="basic", admin=False):
     # find right path for templates, based on theme / admin
     if admin:
@@ -18,6 +27,9 @@ def render_template(template_file, template_values={}, theme_name="basic", admin
         templates_path = os.path.join(os.path.dirname(__file__), "themes/%s/templates/" % (theme_name))
     logging.info("load template %s/%s" % (templates_path, template_file))
     jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(templates_path), extensions=['jinja2.ext.i18n'])
+    # jinja_environment.install_null_translations(newstyle=True)
+    jinja_environment.install_gettext_translations(i18n)
+    jinja_environment.filters['datetime'] = format_datetime
 
     # load and render the page
     template = jinja_environment.get_template(template_file)
