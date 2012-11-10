@@ -3,6 +3,20 @@
 {% block title %}Entries of all blog{% endblock %}
 
 {% block blog_entries %}
+
+{% if alert_message %}
+<div class="row">
+    <div class="alert alert-info span8">
+        <a class="close" data-dismiss="alert">&times;</a>
+        <strong>Information:</strong> 
+        <br/>
+        {{ alert_message }}
+    </div>
+</div>
+{% endif %}
+
+
+
     {% if post %}
 
 {% include 'post_block.html' %}
@@ -58,6 +72,26 @@
 				<textarea class="input-xxlarge" id="comment" name="comment" rows="5"></textarea>
 			</div>
 		</div>
+	
+	  	<!-- google recaptcha -->
+		<div class="control-group">
+			<label class="control-label" for="comment">reCAPTCHA</label>
+			<div class="controls">
+			  <script type="text/javascript"
+			     src="https://www.google.com/recaptcha/api/challenge?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF">
+			  </script>
+			  <noscript>
+			     <iframe src="https://www.google.com/recaptcha/api/noscript?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF"
+			         height="300" width="500" frameborder="0"></iframe><br>
+			     <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+			     </textarea>
+			     <input type="hidden" name="recaptcha_response_field"
+			         value="manual_challenge">
+			  </noscript>
+			</div>
+		</div>
+	  	<!-- google recaptcha -->
+
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</div>

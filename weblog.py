@@ -12,11 +12,12 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from webapp2 import uri_for, Route
 from webapp2_extras.routes import RedirectRoute
 import logging
+import sys
 
 # load modules defined by this app
 from model import Entry, Category, Link, Comment
 from utilities import render_template, dump
-
+from captcha import submit, displayhtml, RecaptchaResponse
 
 class IndexHandler(RequestHandler):
     '''
@@ -66,7 +67,7 @@ class PostHandler(RequestHandler):
                 comments = Comment.all().filter("entry =", post).order("date")
                 t_values['comments'] = comments
             else:
-                logging.warning("%d entries share the same slug %s" % (entries.count(), post_slug))
+                logging.warning("%d entries share the same slug %s" % (posts.count(), post_slug))
 
             links = Link.all().order("date")
             t_values['links'] = links
@@ -89,13 +90,34 @@ class PostHandler(RequestHandler):
                 t_values['post'] = post
                 # dump(post)
 
+                # check google recaptcha
+                recaptcha_challenge_field = self.request.POST['recaptcha_challenge_field']
+                recaptcha_response_field = self.request.POST['recaptcha_response_field']
+                remote_ip = self.request.environ['REMOTE_ADDR']
+                private_key = "6LdwFdISAAAAAOYRK7ls3O-kXPTnYDEstrLM2MRo"
+                antispam_flag = False
+                try:
+                    result = submit(recaptcha_challenge_field, recaptcha_response_field, private_key, remote_ip)
+                    logging.info("google recaptcha %s, %s" % (result.is_valid, result.error_code))
+                    if result.is_valid:
+                        antispam_flag = True
+                except:
+                    e = sys.exc_info()[0]
+                    logging.info(e)
+
                 # create comment for this post
-                comm_author = self.request.POST['author']
-                comm_email = self.request.POST['email']
-                comm_weburl = self.request.POST['weburl']
-                comm_content = self.request.POST['comment']
-                comm = Comment(entry=post, author=comm_author, email=comm_email, weburl=comm_weburl, content=comm_content)
-                comm.put()
+                if antispam_flag:
+                    logging.info("add comment")
+                    comm_author = self.request.POST['author']
+                    comm_email = self.request.POST['email']
+                    comm_weburl = self.request.POST['weburl']
+                    comm_content = self.request.POST['comment']
+                    comm = Comment(entry=post, author=comm_author, email=comm_email, weburl=comm_weburl, content=comm_content)
+                    comm.put()
+                    t_values['alert_message'] = "Thanks %s for your comment!" % (comm_author)
+                else:
+                    logging.warning("comment ignored because antispam failed")
+                    t_values['alert_message'] = "Sorry, your comment was ignored because of reCAPTCHA failure!"
 
                 # find all comments
                 comments = Comment.all().filter("entry =", post).order("date")

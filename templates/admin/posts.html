@@ -27,7 +27,12 @@
         <tr class="">
             <td>{{ post.title }}</td>
             <td>{{ post.date }}</td>
-            <td>{{ post.is_external_page }}</td>
+            <td>{% if post.is_external_page %}
+                <i class="icon-ok"></i>
+                {% else %}
+                <i class="icon-remove"></i>
+                {% endif %}
+            </td>
             <td>
                 <div class="btn-group">
                     <a class="btn btn-mini btn-info" href="/admin/posts/{{post.key().id()}}/edit">Edit</a>
@@ -83,7 +88,7 @@
         <div class="form-actions">
             <input type="hidden" class="" name="current_post_id" value="{% if current_post %} {{ current_post.key().id() }} {% endif %}">
             <button type="submit" class="btn" name="submit_action" value="save">Save</button>
-            <button type="submit" class="btn btn-primary" name="submit_action" value="save_publish">Save & Publish</button>
+            <button type="submit" class="btn" name="submit_action" value="save_publish">Save & Publish</button>
         </div>
     </fieldset>
 </form>                
