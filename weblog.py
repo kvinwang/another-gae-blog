@@ -13,14 +13,14 @@ from webapp2 import uri_for, Route
 from webapp2_extras.routes import RedirectRoute
 import logging
 import sys
-
+from webapp2_extras import i18n 
 
 # load modules defined by this app
 from model import Entry, Category, Link, Comment
 from utilities import render_template, dump
 from captcha import submit, displayhtml, RecaptchaResponse
 from config import Configuration
-
+from BaseRequestHandler import BaseRequestHandler
 
 def generateNavList(total_posts, current_page, posts_per_page):
     navlist = []
@@ -31,7 +31,7 @@ def generateNavList(total_posts, current_page, posts_per_page):
             total_pages += 1
         logging.info("total pages = %d" % (total_pages))
         # generate links
-        for page_number in range(1, total_pages+1):
+        for page_number in range(1, total_pages + 1):
             if page_number != current_page:
                 navlist.append((page_number, "%d" % (page_number)))
 
@@ -41,14 +41,22 @@ def generateNavList(total_posts, current_page, posts_per_page):
             navlist.append((current_page + 1, "Next"))
     return navlist
 
-class IndexHandler(RequestHandler):
+
+class IndexHandler(BaseRequestHandler):
     '''
     classdocs
     '''
     def get(self, page="1"):
         t_values = {}
         page = int(page)
-        logging.info("IndexHandler, get, page = %d" % (page))
+        logging.info("IndexHandler - get: page = %d" % (page))
+
+        # set locale
+        # locale = self.request.GET.get('locale', 'en_US')
+        # i18n.get_i18n().set_locale(locale)
+
+        message = i18n.gettext('Hello, world!')
+        logging.info("hello world  %s" % (message))
 
         # find all entries by order
         query = Entry.all().filter("is_external_page =", True).order("-date")

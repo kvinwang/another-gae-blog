@@ -26,8 +26,8 @@ def render_template(template_file, template_values={}, theme_name="basic", admin
     else:
         templates_path = os.path.join(os.path.dirname(__file__), "themes/%s/templates/" % (theme_name))
     logging.info("load template %s/%s" % (templates_path, template_file))
+
     jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(templates_path), extensions=['jinja2.ext.i18n'])
-    # jinja_environment.install_null_translations(newstyle=True)
     jinja_environment.install_gettext_translations(i18n)
     jinja_environment.filters['datetime'] = format_datetime
 

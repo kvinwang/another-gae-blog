@@ -35,6 +35,7 @@
         margin-top: 28px;
       }
 
+
 /*...... entry ........*/
 .ctop { height:17px; background:url(/static/images/ctop.gif) no-repeat; margin-bottom:-12px;}
 .cbottom { height:17px; background:url(/static/images/cbottom.gif) no-repeat; margin-top:-12px; }
@@ -51,4 +52,8 @@
 .nifty {  display:block; padding:5px; margin-bottom:5px; background:#e4f2fd; border:1px solid #f0f0f0;}
 .box img { border:1px solid #dadada; padding:3px;}
 .box img.wp-smiley { border:none; vertical-align:middle;}
+
+
+/*...... comments ........*/
+h4#respond { font:1.3em Georgia, serif; margin-bottom:30px; background:#fcfcfc; display:block; padding:5px; border-bottom:1px dashed #ccc; text-transform:uppercase; }
 

@@ -1,0 +1,69 @@
+# Translations template for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-11-10 20:53+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: weblog.py:58
+msgid "Hello, world!"
+msgstr ""
+
+#: babel/messages/tests/mofile.py:39 babel/messages/tests/mofile.py:40
+msgid "foo"
+msgstr ""
+
+#: babel/messages/tests/mofile.py:41 babel/messages/tests/mofile.py:42
+msgid "There is"
+msgid_plural "There are"
+msgstr[0] ""
+msgstr[1] ""
+
+#: babel/messages/tests/mofile.py:43 babel/messages/tests/mofile.py:44
+msgid "Fizz"
+msgstr ""
+
+#: babel/messages/tests/mofile.py:45 babel/messages/tests/mofile.py:46
+msgid "Fuzz"
+msgstr ""
+
+#: babel/messages/tests/mofile.py:47 babel/messages/tests/mofile.py:48
+msgid "Fuzzes"
+msgstr ""
+
+#: babel/messages/tests/data/project/file1.py:8
+msgid "bar"
+msgstr ""
+
+#: babel/messages/tests/data/project/file2.py:9
+msgid "foobar"
+msgid_plural "foobars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: babel/messages/tests/data/project/ignored/this_wont_normally_be_here.py:11
+msgid "FooBar"
+msgid_plural "FooBars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: themes/basic/templates/layout.html:24
+msgid "Home"
+msgstr ""
+
+#: themes/basic/templates/layout.html:25
+msgid "About"
+msgstr ""
+
