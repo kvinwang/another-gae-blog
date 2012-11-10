@@ -22,6 +22,8 @@ from captcha import submit, displayhtml, RecaptchaResponse
 from config import Configuration
 from BaseRequestHandler import BaseRequestHandler
 
+
+# generate link pairs for navlist
 def generateNavList(total_posts, current_page, posts_per_page):
     navlist = []
     if total_posts > posts_per_page:
@@ -171,7 +173,6 @@ class PostHandler(RequestHandler):
                 t_values['comments'] = comments
             else:
                 logging.warning("post_id %s does not exist" % (post_id))
-
 
             links = Link.all().order("date")
             t_values['links'] = links
