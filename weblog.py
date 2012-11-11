@@ -31,7 +31,7 @@ def generateNavList(total_posts, current_page, posts_per_page):
         total_pages = total_posts / posts_per_page
         if (total_posts % posts_per_page) != 0:
             total_pages += 1
-        logging.info("total pages = %d" % (total_pages))
+        logging.debug("total pages = %d" % (total_pages))
         # generate links
         for page_number in range(1, total_pages + 1):
             if page_number != current_page:
@@ -51,23 +51,23 @@ class IndexHandler(BaseRequestHandler):
     def get(self, page="1"):
         t_values = {}
         page = int(page)
-        logging.info("IndexHandler - get: page = %d" % (page))
+        logging.debug("IndexHandler - get: page = %d" % (page))
 
         # find all entries by order
         query = Entry.all().filter("is_external_page =", True).order("-date")
         total_posts = query.count()
         q_limit = Configuration["posts_per_page"]
         q_offset = (page - 1) * Configuration["posts_per_page"]
-        logging.info("limit = %d, offset = %d" % (q_limit, q_offset))
+        logging.debug("limit = %d, offset = %d" % (q_limit, q_offset))
 
         entries = query.fetch(limit=q_limit, offset=q_offset)
         for entry in entries:
-            logging.info("entry title: %s, is_external_page = %s" % (entry.title, entry.is_external_page))
+            logging.debug("entry title: %s, is_external_page = %s" % (entry.title, entry.is_external_page))
         t_values['entries'] = entries
 
-        logging.info("total posts = %d, current_page = %d, posts_per_page = %d" % (total_posts, page, Configuration['posts_per_page']))
+        logging.debug("total posts = %d, current_page = %d, posts_per_page = %d" % (total_posts, page, Configuration['posts_per_page']))
         t_values['navlist'] = generateNavList(total_posts, page, Configuration["posts_per_page"])
-        logging.info(t_values['navlist'])
+        logging.debug(t_values['navlist'])
 
         # find all links
         links = Link.all().order("date")
@@ -135,16 +135,16 @@ class PostHandler(RequestHandler):
                 antispam_flag = False
                 try:
                     result = submit(recaptcha_challenge_field, recaptcha_response_field, private_key, remote_ip)
-                    logging.info("google recaptcha %s, %s" % (result.is_valid, result.error_code))
+                    logging.debug("google recaptcha %s, %s" % (result.is_valid, result.error_code))
                     if result.is_valid:
                         antispam_flag = True
                 except:
                     e = sys.exc_info()[0]
-                    logging.info(e)
+                    logging.debug(e)
 
                 # create comment for this post
                 if antispam_flag:
-                    logging.info("add comment")
+                    logging.debug("add comment")
                     comm_author = self.request.POST['author']
                     comm_email = self.request.POST['email']
                     comm_weburl = self.request.POST['weburl']
@@ -158,7 +158,7 @@ class PostHandler(RequestHandler):
 
                 # find all comments
                 comments = Comment.all().filter("entry =", post).order("date")
-                logging.info("PostHandler, post, find %d comments" % (comments.count()))
+                logging.debug("PostHandler, post, find %d comments" % (comments.count()))
                 if post_id:
                     # only update commentcount when new comment is added
                     post.commentcount = comments.count()
@@ -186,7 +186,7 @@ class PageHandler(RequestHandler):
 
         entries = Entry.all().filter("is_external_page =", True).order("-date")
         for entry in entries:
-            logging.info("entry title: %s, is_external_page = %s" % (entry.title, entry.is_external_page))
+            logging.debug("entry title: %s, is_external_page = %s" % (entry.title, entry.is_external_page))
         t_values['entries'] = entries
 
         links = Link.all().order("date")
@@ -208,7 +208,7 @@ class LocaleHandler(RequestHandler):
         locale = self.request.GET.get("value", "en_US")
         if locale:
             self.response.set_cookie("locale", locale)
-            logging.info("LocaleHandler: set locale to %s" % (locale))
+            logging.debug("LocaleHandler: set locale to %s" % (locale))
 
         self.redirect(uri_for("weblog.index"))
 

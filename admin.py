@@ -33,13 +33,13 @@ class Admin(BaseRequestHandler):
 class PostManager(BaseRequestHandler):
     def get(self, post_id="", operation=""):
         t_values = {}
-        logging.info("PostManager get: post_id = %s, operation = %s" % (post_id, operation))
+        logging.debug("PostManager get: post_id = %s, operation = %s" % (post_id, operation))
 
         # find current_post based on post_id
         if post_id:
             current_post = Entry.get_by_id(long(post_id))
             if current_post:
-                logging.info("find post %s from post id %s" % (post_id, current_post.title))
+                logging.debug("find post %s from post id %s" % (post_id, current_post.title))
                 if operation == "edit":
                     t_values['current_post'] = current_post
                 elif operation == "publish":
@@ -64,7 +64,7 @@ class PostManager(BaseRequestHandler):
         # add new post or edit existed post
         current_post_id = self.request.POST["current_post_id"]
         if current_post_id:
-            logging.info("PostManager: post : current_post_id = %s" % (current_post_id))
+            logging.debug("PostManager: post : current_post_id = %s" % (current_post_id))
             # update existed post
             post = Entry.get_by_id(long(current_post_id))
             if post:
@@ -75,7 +75,7 @@ class PostManager(BaseRequestHandler):
                 post.put()
 
         else:
-            logging.info("PostManager: post : new post title %s" % (self.request.POST['blog_title']))
+            logging.debug("PostManager: post : new post title %s" % (self.request.POST['blog_title']))
             # create new post
             post = Entry()
             post.title = self.request.POST["blog_title"]
@@ -83,7 +83,7 @@ class PostManager(BaseRequestHandler):
             post.content = self.request.POST["blog_content"]
             # post.categories = self.request.POST["blog_categories"]
             operation = self.request.POST["submit_action"]
-            logging.info("operation = %s" % (operation))
+            logging.debug("operation = %s" % (operation))
             if operation == "save_publish":
                 post.is_external_page = True
             else:  # "save" operation
@@ -101,13 +101,13 @@ class LinkManager(BaseRequestHandler):
     """manage external links for this blog"""
     def get(self, link_id="", operation=""):
         t_values = {}
-        logging.info("LinkManager: link_id = %s, operation = %s" % (link_id, operation))
+        logging.debug("LinkManager: link_id = %s, operation = %s" % (link_id, operation))
 
         # find current_link from link_id
         if link_id:
             current_link = Link.get_by_id(long(link_id))
             if current_link:
-                logging.info("found link %s from link_id: %s" % (current_link.title, link_id))
+                logging.debug("found link %s from link_id: %s" % (current_link.title, link_id))
                 if operation == "delete":
                     current_link.delete()
                     t_values['alert_message'] = "Link %s has been deleted." % (current_link.title)
@@ -129,7 +129,7 @@ class LinkManager(BaseRequestHandler):
         link_title = self.request.POST['link_title']
         link_target = self.request.POST['link_target']
         link_sequence = self.request.POST['link_sequence']
-        logging.info("LinkManager post: current_link_id = %s, link_title = %s, link_target = %s, link_sequence = %s" % (current_link_id, link_title, 'link_target', 'link_sequence'))
+        logging.debug("LinkManager post: current_link_id = %s, link_title = %s, link_target = %s, link_sequence = %s" % (current_link_id, link_title, 'link_target', 'link_sequence'))
 
         if current_link_id:
             # edit existed link

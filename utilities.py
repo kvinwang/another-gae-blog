@@ -12,6 +12,14 @@ from webapp2_extras import i18n
 from langs import getLangsList
 
 
+# 404 method
+def error404(handler):
+    # show 404 page
+    logging.debug("theme_file - error404 - %s" % (handler.request.path))
+    handler.response.set_status(404)
+    return handler.response.out.write(render_template("404.html", {}, "", True))
+
+
 # jinja2 filters
 def format_datetime(value, format='medium'):
     if format == 'full':
@@ -61,3 +69,4 @@ def get_safe_slug(original_slug=""):
         logging.info("slug translation: %s ==> %s" % (original_slug, slug))
         return slug
     return original_slug
+
