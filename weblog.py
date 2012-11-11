@@ -13,7 +13,7 @@ from webapp2 import uri_for, Route
 # from webapp2_extras.routes import RedirectRoute
 import logging
 import sys
-from webapp2_extras import i18n
+# from webapp2_extras import i18n
 
 # load modules defined by this app
 from model import Entry, Category, Link, Comment
