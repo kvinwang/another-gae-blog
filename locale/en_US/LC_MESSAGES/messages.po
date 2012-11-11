@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-10 20:53+0800\n"
+"POT-Creation-Date: 2012-11-11 14:36+0800\n"
 "PO-Revision-Date: 2012-11-10 18:26+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -18,47 +18,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: weblog.py:58
-msgid "Hello, world!"
-msgstr "Hello world!"
+#: templates/admin/layout.html:33 themes/basic/templates/layout.html:32
+msgid "Posts"
+msgstr "Posts"
 
-#: babel/messages/tests/mofile.py:39 babel/messages/tests/mofile.py:40
-msgid "foo"
-msgstr ""
+#: templates/admin/layout.html:34
+msgid "Comments"
+msgstr "Comments"
 
-#: babel/messages/tests/mofile.py:41 babel/messages/tests/mofile.py:42
-msgid "There is"
-msgid_plural "There are"
-msgstr[0] ""
-msgstr[1] ""
+#: templates/admin/layout.html:35 themes/basic/templates/layout.html:34
+msgid "Categories"
+msgstr "Categories"
 
-#: babel/messages/tests/mofile.py:43 babel/messages/tests/mofile.py:44
-msgid "Fizz"
-msgstr ""
+#: templates/admin/layout.html:36 themes/basic/templates/layout.html:33
+msgid "Links"
+msgstr "Links"
 
-#: babel/messages/tests/mofile.py:45 babel/messages/tests/mofile.py:46
-msgid "Fuzz"
-msgstr ""
+#: templates/admin/layout.html:37
+msgid "Pages"
+msgstr "Pages"
 
-#: babel/messages/tests/mofile.py:47 babel/messages/tests/mofile.py:48
-msgid "Fuzzes"
-msgstr ""
-
-#: babel/messages/tests/data/project/file1.py:8
-msgid "bar"
-msgstr ""
-
-#: babel/messages/tests/data/project/file2.py:9
-msgid "foobar"
-msgid_plural "foobars"
-msgstr[0] ""
-msgstr[1] ""
-
-#: babel/messages/tests/data/project/ignored/this_wont_normally_be_here.py:11
-msgid "FooBar"
-msgid_plural "FooBars"
-msgstr[0] ""
-msgstr[1] ""
+#: templates/admin/layout.html:38
+msgid "Settings"
+msgstr "Settings"
 
 #: themes/basic/templates/layout.html:24
 msgid "Home"
@@ -67,4 +49,8 @@ msgstr "Home"
 #: themes/basic/templates/layout.html:25
 msgid "About"
 msgstr "About"
+
+#: themes/basic/templates/layout.html:29
+msgid "Admin"
+msgstr "Admin"
 

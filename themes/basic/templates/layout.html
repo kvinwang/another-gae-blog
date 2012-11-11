@@ -26,15 +26,24 @@
                     <li><a href="#">Link</a></li>
                     <li class="divider-vertical"></li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            More<b class="caret"></b>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="Admin">{{ _("Admin") }}<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                          <li><a href="/admin/">Admin</a></li>
-                          <li><a href="/rss/">(RSS)</a></li>
-                          <li><a href="#">Something else here</a></li>
+                          <li><a href="/admin/posts">{{ _("Posts")}}</a></li>
+                          <li><a href="/admin/links">{{ _("Links")}}</a></li>
+                          <li><a href="/admin/categories">{{ _("Categories")}}</a></li>
                           <li class="divider"></li>
-                          <li><a href="#">Separated link</a></li>
+                          <li><a href="/rss/">(RSS)</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="langs">
+                            <i class="icon-globe"></i>Lang<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for lang in langs %}
+                              <li><a href="/locale?value={{ lang.locale }}">{{ lang.description}}</a></li>
+                            {% endfor %}
                         </ul>
                     </li>
                 </ul>

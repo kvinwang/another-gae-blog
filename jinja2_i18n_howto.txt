@@ -48,7 +48,7 @@ gettext("Home") in .py files
 
 6. run babel with config file
 
-pybabel -v extract -F babel.config -o ./locale/messages.pot ./
+C:\Python27\Scripts\pybabel -v extract -F babel.config -o ./locale/messages.pot ./
 
 now babel should be able to extract {% trans %} tags from Jinja2 template files (.html)
 

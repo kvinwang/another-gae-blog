@@ -10,10 +10,10 @@ import webapp2
 from webapp2 import RequestHandler
 from google.appengine.ext.webapp.util import run_wsgi_app
 from webapp2 import uri_for, Route
-from webapp2_extras.routes import RedirectRoute
+# from webapp2_extras.routes import RedirectRoute
 import logging
 import sys
-from webapp2_extras import i18n 
+from webapp2_extras import i18n
 
 # load modules defined by this app
 from model import Entry, Category, Link, Comment
@@ -52,13 +52,6 @@ class IndexHandler(BaseRequestHandler):
         t_values = {}
         page = int(page)
         logging.info("IndexHandler - get: page = %d" % (page))
-
-        # set locale
-        # locale = self.request.GET.get('locale', 'en_US')
-        # i18n.get_i18n().set_locale(locale)
-
-        message = i18n.gettext('Hello, world!')
-        logging.info("hello world  %s" % (message))
 
         # find all entries by order
         query = Entry.all().filter("is_external_page =", True).order("-date")
@@ -207,6 +200,19 @@ class PageHandler(RequestHandler):
         pass
 
 
+class LocaleHandler(RequestHandler):
+    '''
+    classdocs
+    '''
+    def get(self):
+        locale = self.request.GET.get("value", "en_US")
+        if locale:
+            self.response.set_cookie("locale", locale)
+            logging.info("LocaleHandler: set locale to %s" % (locale))
+
+        self.redirect(uri_for("weblog.index"))
+
+
 class InitBlog(RequestHandler):
     '''
     classdocs
@@ -230,6 +236,7 @@ routes = [
           Route('/page/<page_slug>', handler='weblog.PageHandler', name="weblog.page"),
           Route('/post/<post_slug>', handler='weblog.PostHandler', name="weblog.post"),
           Route('/init', handler='weblog.InitBlog', name="init"),
+          Route('/locale', handler='weblog.LocaleHandler', name="weblog.locale"),
           ]
 
 application = webapp2.WSGIApplication(routes, debug=True)

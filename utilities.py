@@ -7,7 +7,7 @@ Created on 2012-9-5
 import jinja2, os, logging
 from google.appengine.api import memcache
 from webapp2_extras import i18n 
-
+from langs import getLangsList
 
 # jinja2 filters
 def format_datetime(value, format='medium'):
@@ -35,9 +35,7 @@ def render_template(template_file, template_values={}, theme_name="basic", admin
     template = jinja_environment.get_template(template_file)
 
     # update template_values if necessary
-    blog = {}
-    blog['theme_name'] = "basic"
-    template_values['blog'] = blog
+    template_values['langs'] = getLangsList()
     return template.render(template_values)
 
 

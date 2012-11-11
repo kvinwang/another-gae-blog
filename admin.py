@@ -16,9 +16,10 @@ import logging
 
 # load modules defined by this app
 from utilities import render_template, dump, get_safe_slug
+from BaseRequestHandler import BaseRequestHandler
 
 
-class Admin(RequestHandler):
+class Admin(BaseRequestHandler):
     '''
     classdocs
     '''
@@ -29,7 +30,7 @@ class Admin(RequestHandler):
         return self.response.out.write(render_template("index.html", t_values, "", True))
 
 
-class PostManager(RequestHandler):
+class PostManager(BaseRequestHandler):
     def get(self, post_id="", operation=""):
         t_values = {}
         logging.info("PostManager get: post_id = %s, operation = %s" % (post_id, operation))
@@ -96,7 +97,7 @@ class PostManager(RequestHandler):
         return self.response.out.write(render_template("posts.html", t_values, "", True))
 
 
-class LinkManager(RequestHandler):
+class LinkManager(BaseRequestHandler):
     """manage external links for this blog"""
     def get(self, link_id="", operation=""):
         t_values = {}
