@@ -1,5 +1,5 @@
 application: zhengfablog
-version: 20121111
+version: 20121112
 runtime: python27
 api_version: 1
 threadsafe: false

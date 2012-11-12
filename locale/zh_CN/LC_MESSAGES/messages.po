@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-11 14:36+0800\n"
-"PO-Revision-Date: 2012-11-10 20:03+0800\n"
+"POT-Creation-Date: 2012-11-12 15:07+0800\n"
+"PO-Revision-Date: 2012-11-12 13:04+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0\n"
@@ -18,19 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
+#: templates/admin/alert.html:8 templates/admin/posts.html:11
+#: themes/basic/templates/post.html:11
+msgid "Information"
+msgstr "提示信息"
+
 #: templates/admin/layout.html:33 themes/basic/templates/layout.html:32
 msgid "Posts"
-msgstr "帖子"
+msgstr "文章"
 
 #: templates/admin/layout.html:34
 msgid "Comments"
 msgstr "评论"
 
-#: templates/admin/layout.html:35 themes/basic/templates/layout.html:34
+#: templates/admin/layout.html:35 templates/admin/posts.html:71
+#: themes/basic/templates/layout.html:34 themes/basic/templates/layout.html:59
 msgid "Categories"
 msgstr "类别"
 
 #: templates/admin/layout.html:36 themes/basic/templates/layout.html:33
+#: themes/basic/templates/layout.html:66
 msgid "Links"
 msgstr "链接"
 
@@ -41,6 +48,75 @@ msgstr "页面"
 #: templates/admin/layout.html:38
 msgid "Settings"
 msgstr "设置"
+
+#: templates/admin/links.html:19 templates/admin/posts.html:19
+#: templates/admin/posts.html:57
+msgid "Title"
+msgstr "标题"
+
+#: templates/admin/links.html:20
+msgid "Target"
+msgstr "目标"
+
+#: templates/admin/links.html:21
+msgid "created_at"
+msgstr "创建时间"
+
+#: templates/admin/links.html:22
+msgid "Sequence"
+msgstr "序号"
+
+#: templates/admin/links.html:23 templates/admin/posts.html:22
+msgid "Operations"
+msgstr "操作"
+
+#: templates/admin/posts.html:20
+msgid "Date"
+msgstr "时间"
+
+#: templates/admin/posts.html:21
+msgid "Published?"
+msgstr "发布状态"
+
+#: templates/admin/posts.html:55
+msgid "Compose your blog"
+msgstr "编辑你的日志"
+
+#: templates/admin/posts.html:60
+msgid "Blog title"
+msgstr "日志标题"
+
+#: templates/admin/posts.html:64
+msgid "Slug"
+msgstr "缩略标题"
+
+#: templates/admin/posts.html:67
+msgid "Brief title which will be used as part of URL"
+msgstr "这个缩略标题将被用作URL的一部分"
+
+#: templates/admin/posts.html:83
+msgid "Content"
+msgstr "内容"
+
+#: templates/admin/posts.html:90
+msgid "Save"
+msgstr "保存"
+
+#: templates/admin/posts.html:91
+msgid "Save & Publish"
+msgstr "保存并发布"
+
+#: themes/basic/templates/index.html:23
+msgid "Not Found"
+msgstr "不存在"
+
+#: themes/basic/templates/index.html:24
+msgid "Sorry, but you are looking for something that isn't here"
+msgstr "你所查看的东西不存在！"
+
+#: themes/basic/templates/layout.html:20
+msgid "Search"
+msgstr "搜索"
 
 #: themes/basic/templates/layout.html:24
 msgid "Home"
@@ -53,4 +129,29 @@ msgstr "关于"
 #: themes/basic/templates/layout.html:29
 msgid "Admin"
 msgstr "管理"
+
+#: themes/basic/templates/layout.html:75
+msgid "Powered by"
+msgstr "运行于"
+
+#: themes/basic/templates/post.html:54
+msgid "Name"
+msgstr "名字"
+
+#: themes/basic/templates/post.html:61
+msgid "Email"
+msgstr "电子邮件"
+
+#: themes/basic/templates/post.html:68
+msgid "Website"
+msgstr "个人网址"
+
+#: themes/basic/templates/post.html:75
+#, fuzzy
+msgid "Comment"
+msgstr "评论"
+
+#: themes/basic/templates/post.html:83
+msgid "reCAPTCHA"
+msgstr "验证码"
 

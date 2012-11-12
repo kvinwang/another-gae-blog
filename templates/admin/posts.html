@@ -8,7 +8,7 @@
     {% if alert_message %}
         <div class="alert alert-info">
             <a class="close" data-dismiss="alert">&times;</a>
-            <strong>Information!</strong> {{ alert_message }}
+            <strong>{{ _("Information") }}!</strong> {{ alert_message }}
         </div>
     {% endif %}
 
@@ -16,10 +16,10 @@
         <caption><h3 class="pull-left">All Posts for Your Blog:</h3></caption>
         <thead class="">
             <tr>
-                <td>Title</td>
-                <td>Date</td>
-                <td>Published?</td>
-                <td>Operations</td>
+                <td>{{ _("Title") }}</td>
+                <td>{{ _("Date") }}</td>
+                <td>{{ _("Published?") }}</td>
+                <td>{{ _("Operations") }}</td>
             </tr>
         </thead>
         <tbody>
@@ -52,23 +52,23 @@
 
 <form class="form-horizontal" action="/admin/posts" method="post">
     <fieldset>
-        <legend>Compose your blog:</legend>
+        <legend>{{ _("Compose your blog") }}:</legend>
         <div class="control-group">
-            <label class="control-label" for="blog_title">Title</label>
+            <label class="control-label" for="blog_title">{{ _("Title") }}</label>
             <div class="controls">
                 <input type="text" class="input-xlarge" name="blog_title" value="{% if current_post %}{{current_post.title}}{% endif %}">
-                <p class="help-block">Blog title</p>
+                <p class="help-block">{{ _("Blog title") }}</p>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="blog_slug">Slug</label>
+            <label class="control-label" for="blog_slug">{{ _("Slug") }}</label>
             <div class="controls">
                 <input type="text" class="input-xlarge" name="blog_slug"value="{% if current_post %}{{current_post.slug}}{% endif %}">
-                <p class="help-block">Brief title which will be used as part of URL</p>
+                <p class="help-block">{{ _("Brief title which will be used as part of URL") }}</p>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="blog_categories">Categories</label>
+            <label class="control-label" for="blog_categories">{{ _("Categories") }}</label>
             <div class="controls">
                 <select multiple="multiple" name="blog_categories">
                     <option>cat 1</option>
@@ -80,15 +80,15 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="blog_content">Content</label>
+            <label class="control-label" for="blog_content">{{ _("Content") }}</label>
             <div class="controls">
                 <textarea class="ckeditor" name="blog_content" rows="50">{% if current_post %}{{current_post.content}}{% endif %}</textarea>
             </div>
         </div>
         <div class="form-actions">
             <input type="hidden" class="" name="current_post_id" value="{% if current_post %} {{ current_post.key().id() }} {% endif %}">
-            <button type="submit" class="btn" name="submit_action" value="save">Save</button>
-            <button type="submit" class="btn" name="submit_action" value="save_publish">Save & Publish</button>
+            <button type="submit" class="btn" name="submit_action" value="save">{{ _("Save") }}</button>
+            <button type="submit" class="btn" name="submit_action" value="save_publish">{{ _("Save & Publish") }}</button>
         </div>
     </fieldset>
 </form>                

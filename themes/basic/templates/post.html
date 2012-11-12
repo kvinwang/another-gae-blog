@@ -8,7 +8,7 @@
 <div class="row">
     <div class="alert alert-info span8">
         <a class="close" data-dismiss="alert">&times;</a>
-        <strong>Information:</strong> 
+        <strong>{{ _("Information") }}:</strong> 
         <br/>
         {{ alert_message }}
     </div>
@@ -51,28 +51,28 @@
 	<fieldset>
 	    <h4 id="respond">Leave a Reply</h4>
 		<div class="control-group">
-			<label class="control-label" for="author">Name</label>
+			<label class="control-label" for="author">{{ _("Name") }}</label>
 			<div class="controls">
 				<input type="text" class="input-medium" id="author" name="author" placeholder="Required *">
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label" for="email">Email</label>
+			<label class="control-label" for="email">{{ _("Email") }}</label>
 			<div class="controls">
 				<input type="text" class="input-xlarge" id="email" name="email" placeholder="Your email won't be published">
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label" for="weburl">Website</label>
+			<label class="control-label" for="weburl">{{ _("Website") }}</label>
 			<div class="controls">
 				<input type="text" class="input-xlarge" id="weburl" name="weburl"  placeholder="click your comment will land your website">
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label" for="comment">Comment</label>
+			<label class="control-label" for="comment">{{ _("Comment") }}</label>
 			<div class="controls">
 				<textarea class="input-xxlarge" id="comment" name="comment" rows="5"></textarea>
 			</div>
@@ -80,7 +80,7 @@
 	
 	  	<!-- google recaptcha -->
 		<div class="control-group">
-			<label class="control-label" for="comment">reCAPTCHA</label>
+			<label class="control-label" for="comment">{{ _("reCAPTCHA") }}</label>
 			<div class="controls">
 			  <script type="text/javascript"
 			     src="http://www.google.com/recaptcha/api/challenge?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF">

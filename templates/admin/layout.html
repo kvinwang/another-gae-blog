@@ -36,24 +36,22 @@
                     <li><a href="/admin/links">{{ _("Links") }}</a></li>
                     <li><a href="/admin/pages">{{ _("Pages") }}</a></li>
                     <li><a href="/admin/settings">{{ _("Settings") }}</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li class="nav-header">Nav header</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
                 </ul>
                 <ul class="nav pull-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="langs">
+                            <i class="icon-globe"></i>Lang<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for lang in langs %}
+                              <li><a href="/locale?value={{ lang.locale }}">{{ lang.description}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                     <li class="divider-vertical"></li>
                     <li><a href="/">Blog</a></li>
-                    <li class="divider-vertical"></li>
                 </ul>
+
             </div><!-- /.nav-collapse -->
         </div>
     </div><!-- /navbar-inner -->

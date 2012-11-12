@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-11 14:36+0800\n"
-"PO-Revision-Date: 2012-11-10 18:26+0800\n"
+"POT-Creation-Date: 2012-11-12 15:07+0800\n"
+"PO-Revision-Date: 2012-11-12 13:04+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -18,19 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
+#: templates/admin/alert.html:8 templates/admin/posts.html:11
+#: themes/basic/templates/post.html:11
+msgid "Information"
+msgstr "Information"
+
 #: templates/admin/layout.html:33 themes/basic/templates/layout.html:32
 msgid "Posts"
 msgstr "Posts"
 
 #: templates/admin/layout.html:34
 msgid "Comments"
-msgstr "Comments"
+msgstr "Comment"
 
-#: templates/admin/layout.html:35 themes/basic/templates/layout.html:34
+#: templates/admin/layout.html:35 templates/admin/posts.html:71
+#: themes/basic/templates/layout.html:34 themes/basic/templates/layout.html:59
 msgid "Categories"
 msgstr "Categories"
 
 #: templates/admin/layout.html:36 themes/basic/templates/layout.html:33
+#: themes/basic/templates/layout.html:66
 msgid "Links"
 msgstr "Links"
 
@@ -41,6 +48,75 @@ msgstr "Pages"
 #: templates/admin/layout.html:38
 msgid "Settings"
 msgstr "Settings"
+
+#: templates/admin/links.html:19 templates/admin/posts.html:19
+#: templates/admin/posts.html:57
+msgid "Title"
+msgstr "Title"
+
+#: templates/admin/links.html:20
+msgid "Target"
+msgstr "Target"
+
+#: templates/admin/links.html:21
+msgid "created_at"
+msgstr "created_at"
+
+#: templates/admin/links.html:22
+msgid "Sequence"
+msgstr "Sequence"
+
+#: templates/admin/links.html:23 templates/admin/posts.html:22
+msgid "Operations"
+msgstr "Operations"
+
+#: templates/admin/posts.html:20
+msgid "Date"
+msgstr ""
+
+#: templates/admin/posts.html:21
+msgid "Published?"
+msgstr ""
+
+#: templates/admin/posts.html:55
+msgid "Compose your blog"
+msgstr ""
+
+#: templates/admin/posts.html:60
+msgid "Blog title"
+msgstr ""
+
+#: templates/admin/posts.html:64
+msgid "Slug"
+msgstr ""
+
+#: templates/admin/posts.html:67
+msgid "Brief title which will be used as part of URL"
+msgstr ""
+
+#: templates/admin/posts.html:83
+msgid "Content"
+msgstr ""
+
+#: templates/admin/posts.html:90
+msgid "Save"
+msgstr ""
+
+#: templates/admin/posts.html:91
+msgid "Save & Publish"
+msgstr ""
+
+#: themes/basic/templates/index.html:23
+msgid "Not Found"
+msgstr "Not Found"
+
+#: themes/basic/templates/index.html:24
+msgid "Sorry, but you are looking for something that isn't here"
+msgstr "Sorry, but you are looking for something that isn't here"
+
+#: themes/basic/templates/layout.html:20
+msgid "Search"
+msgstr ""
 
 #: themes/basic/templates/layout.html:24
 msgid "Home"
@@ -53,4 +129,29 @@ msgstr "About"
 #: themes/basic/templates/layout.html:29
 msgid "Admin"
 msgstr "Admin"
+
+#: themes/basic/templates/layout.html:75
+msgid "Powered by"
+msgstr ""
+
+#: themes/basic/templates/post.html:54
+msgid "Name"
+msgstr ""
+
+#: themes/basic/templates/post.html:61
+msgid "Email"
+msgstr ""
+
+#: themes/basic/templates/post.html:68
+msgid "Website"
+msgstr ""
+
+#: themes/basic/templates/post.html:75
+#, fuzzy
+msgid "Comment"
+msgstr "Comment"
+
+#: themes/basic/templates/post.html:83
+msgid "reCAPTCHA"
+msgstr ""
 

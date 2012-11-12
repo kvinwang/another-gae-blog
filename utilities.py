@@ -46,10 +46,10 @@ def render_template(template_file, template_values={}, theme_name="basic", admin
     # load and render the page
     template = jinja_environment.get_template(template_file)
 
-    if not admin:
+    # if not admin:
         # set lang list for all nomal pages
         # update template_values if necessary
-        template_values['langs'] = getLangsList()
+    template_values['langs'] = getLangsList()
 
     return template.render(template_values)
 

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<HTML>
+<HTML lang="utf-8">
 <HEAD>
+    <meta charset="utf-8">
     <title>{% block title %} {{ blog.title }}{% endblock %}</title>        
     <!-- styles -->
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css"  media="screen">
     <link rel="stylesheet" type="text/css" href="/static/css/weblog.css">
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="/static/ico/favicon.ico">        
-    <meta charset="utf-8">  
     {% block head_block %}{% endblock %}  
 </head>
 <body>
@@ -17,7 +17,7 @@
               <div class="navbar-inner">
                 <a class="brand" href="/"><i class="icon-home"></i>WEBlog</a>
                 <form class="navbar-search pull-right"  action="https://www.google.com/search"> 
-                  <input type="text" class="search-query" placeholder="Search" name="q">
+                  <input type="text" class="search-query" placeholder="{{_("Search")}}" name="q">
                   <input type="hidden"  name="sitesearch" value="blog.zfdang.com">
                 </form>                
                 <ul class="nav pull-right">
@@ -56,14 +56,14 @@
             </div> <!-- span10 -->
             <div class="span2">
                 <ul class="nav nav-list pull-center">
-                    <li class="nav-header">Categories</li>
+                    <li class="nav-header">{{ _("Categories") }}</li>
                     {% for category in categories %}
                         <li><A href="">{{ category.name }}</a></li>
                     {% endfor %}
                 </ul>
                 <br/>
                 <ul class="nav nav-list pull-center">
-                    <li class="nav-header">Links</li>
+                    <li class="nav-header">{{ _("Links") }}</li>
                     {% for link in links %}
                         <li><A href="{{ link.target }}" target="_blank">{{ link.title }} </a></li>
                     {% endfor %}
@@ -72,7 +72,7 @@
         </div> <!-- row -->
         <div id="footer">
             <div class="container pull-left span11">
-                <p class="muted credit">&copy; zfdang 2012. Powered by <a href="https://code.google.com/p/another-gae-blog">WEBlog</a>.</p>
+                <p class="muted credit">&copy; zfdang 2012. {{ _("Powered by") }}<a href="https://code.google.com/p/another-gae-blog">WEBlog</a>.</p>
               </div>
               <div class="pull-right span1"><a href="#top" title="Top">TOP</a></div>
         </div>
