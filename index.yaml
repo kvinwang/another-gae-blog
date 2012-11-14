@@ -22,6 +22,13 @@ indexes:
 
 - kind: Entry
   properties:
+  - name: entrytype
+  - name: is_external_page
+  - name: date
+    direction: desc
+
+- kind: Entry
+  properties:
   - name: is_external_page
   - name: date
     direction: desc
