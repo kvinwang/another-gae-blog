@@ -77,15 +77,15 @@ def submit(recaptcha_challenge_field, recaptcha_response_field, private_key, rem
             "User-agent": "reCAPTCHA Python"
             }
         )
-    
-    httpresp = urllib2.urlopen (request)
 
-    return_values = httpresp.read ().splitlines ();
-    httpresp.close();
+    httpresp = urllib2.urlopen(request)
 
-    return_code = return_values [0]
+    return_values = httpresp.read().splitlines()
+    httpresp.close()
+
+    return_code = return_values[0]
 
     if (return_code == "true"):
-        return RecaptchaResponse (is_valid=True)
+        return RecaptchaResponse(is_valid=True)
     else:
-        return RecaptchaResponse (is_valid=False, error_code = return_values [1])
+        return RecaptchaResponse(is_valid=False, error_code=return_values[1])
