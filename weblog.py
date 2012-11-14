@@ -77,7 +77,7 @@ class IndexHandler(BaseRequestHandler):
         categories = Category.all()
         t_values['categories'] = categories
 
-        pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("-date")
+        pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("date")
         t_values['pages'] = pages
 
         # show index page
@@ -115,7 +115,7 @@ class PostHandler(BaseRequestHandler):
             categories = Category.all()
             t_values['categories'] = categories
 
-            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("-date")
+            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("date")
             t_values['pages'] = pages
 
             return self.response.out.write(render_template("post.html", t_values, "basic", False))
@@ -180,7 +180,7 @@ class PostHandler(BaseRequestHandler):
             categories = Category.all()
             t_values['categories'] = categories
     
-            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("-date")
+            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("date")
             t_values['pages'] = pages
 
             return self.response.out.write(render_template("post.html", t_values, "basic", False))
@@ -213,7 +213,7 @@ class PageHandler(BaseRequestHandler):
             categories = Category.all()
             t_values['categories'] = categories
 
-            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("-date")
+            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("date")
             t_values['pages'] = pages
             
             return self.response.out.write(render_template("page.html", t_values, "basic", False))
