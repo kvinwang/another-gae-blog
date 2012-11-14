@@ -54,7 +54,7 @@ class IndexHandler(BaseRequestHandler):
         logging.info("IndexHandler - get: page = %d" % (page))
 
         # find all entries by order
-        query = Entry.all().filter("is_external_page =", True).order("-date")
+        query = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'post').order("-date")
         total_posts = query.count()
         q_limit = Configuration["posts_per_page"]
         q_offset = (page - 1) * Configuration["posts_per_page"]
@@ -76,6 +76,9 @@ class IndexHandler(BaseRequestHandler):
         # find all categories
         categories = Category.all()
         t_values['categories'] = categories
+
+        pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("-date")
+        t_values['pages'] = pages
 
         # show index page
         return self.response.out.write(render_template("index.html", t_values, "basic", False))
@@ -111,6 +114,10 @@ class PostHandler(BaseRequestHandler):
 
             categories = Category.all()
             t_values['categories'] = categories
+
+            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("-date")
+            t_values['pages'] = pages
+
             return self.response.out.write(render_template("post.html", t_values, "basic", False))
         else:
             self.redirect(uri_for("weblog.index"))
@@ -172,31 +179,48 @@ class PostHandler(BaseRequestHandler):
 
             categories = Category.all()
             t_values['categories'] = categories
+    
+            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("-date")
+            t_values['pages'] = pages
+
             return self.response.out.write(render_template("post.html", t_values, "basic", False))
         else:
             self.redirect(uri_for("weblog.index"))
 
 
 class PageHandler(BaseRequestHandler):
-    '''
-    classdocs
-    '''
-    def get(self):
-        t_values = {}
+    def get(self, page_slug=""):
+        if page_slug:
+            t_values = {}
 
-        entries = Entry.all().filter("is_external_page =", True).order("-date")
-        for entry in entries:
-            logging.info("entry title: %s, is_external_page = %s" % (entry.title, entry.is_external_page))
-        t_values['entries'] = entries
+            posts = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').filter("slug =", page_slug)
+            if posts.count() == 1:
+                logging.warning("find one page with slug=%s" % (page_slug))
+                posts = posts.fetch(limit=1)
+                post = posts[0]
+                t_values['post'] = post
+                # dump(post)
 
-        links = Link.all().order("date")
-        t_values['links'] = links
+                # find all comments
+                comments = Comment.all().filter("entry =", post).order("date")
+                t_values['comments'] = comments
+            else:
+                logging.warning("%d entries share the same slug %s" % (posts.count(), page_slug))
 
-        categories = Category.all()
-        t_values['categories'] = categories
-        return self.response.out.write(render_template("index.html", t_values, "basic", False))
+            links = Link.all().order("date")
+            t_values['links'] = links
 
-    def post(self):
+            categories = Category.all()
+            t_values['categories'] = categories
+
+            pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("-date")
+            t_values['pages'] = pages
+            
+            return self.response.out.write(render_template("page.html", t_values, "basic", False))
+        else:
+            self.redirect(uri_for("weblog.index"))
+
+    def post(self, post_slug=""):
         pass
 
 

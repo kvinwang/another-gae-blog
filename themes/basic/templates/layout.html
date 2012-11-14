@@ -21,19 +21,22 @@
                   <input type="hidden"  name="sitesearch" value="blog.zfdang.com">
                 </form>                
                 <ul class="nav pull-right">
-                    <li class="active"><a href="#">{{ _("Home") }}</a></li>
-                    <li><a href="#">{% trans %}About{% endtrans %}</a></li>
-                    <li><a href="#">Link</a></li>
+                    <li class="active"><a href="/">{{ _("Home") }}</a></li>
+                    {% for page in pages %}
+                        <li><a href="/page/{{page.slug}}">{{ page.title }}</a></li>
+                    {% endfor %}
                     <li class="divider-vertical"></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="Admin">{{ _("Admin") }}<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                          <li><a href="/admin/posts">{{ _("Posts")}}</a></li>
-                          <li><a href="/admin/links">{{ _("Links")}}</a></li>
-                          <li><a href="/admin/categories">{{ _("Categories")}}</a></li>
-                          <li class="divider"></li>
-                          <li><a href="/rss/">(RSS)</a></li>
+                            <li><a href="/admin/posts">{{ _("Posts") }}</a></li>
+                            <li><a href="/admin/comments">{{ _("Comments") }}</a></li>
+                            <li><a href="/admin/categories">{{ _("Categories") }}</a></li>
+                            <li><a href="/admin/links">{{ _("Links") }}</a></li>
+                            <li><a href="/admin/pages">{{ _("Pages") }}</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/admin/settings">{{ _("Settings") }}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
