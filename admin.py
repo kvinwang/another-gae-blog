@@ -55,7 +55,7 @@ class PostManager(BaseRequestHandler):
                     t_values['alert_message'] = "Post %s has been changed to deleted" % (current_post.title)
 
         # show all posts
-        posts = Entry.all()
+        posts = Entry.all().filter("entrytype =", 'post')
         t_values['posts'] = posts
         return self.response.out.write(render_template("posts.html", t_values, "", True))
 
@@ -72,6 +72,7 @@ class PostManager(BaseRequestHandler):
                 post.title = self.request.POST["blog_title"]
                 post.slug = get_safe_slug(self.request.POST["blog_slug"])
                 post.content = self.request.POST["blog_content"]
+                post.entrytype = 'post'
                 post.put()
 
         else:
@@ -88,13 +89,84 @@ class PostManager(BaseRequestHandler):
                 post.is_external_page = True
             else:  # "save" operation
                 post.is_external_page = False
+            post.entrytype = 'post'
             post.put()
             t_values['alert_message'] = "Post %s has been created!" % (post.title)
 
         # show all posts
-        posts = Entry.all()
+        posts = Entry.all().filter("entrytype =", 'post')
         t_values['posts'] = posts
         return self.response.out.write(render_template("posts.html", t_values, "", True))
+
+
+class PageManager(BaseRequestHandler):
+    def get(self, page_id="", operation=""):
+        t_values = {}
+        logging.info("PageManager get: page_id = %s, operation = %s" % (page_id, operation))
+
+        # find current_post based on page_id
+        if page_id:
+            current_post = Entry.get_by_id(long(page_id))
+            if current_post:
+                logging.info("find post %s from post id %s" % (page_id, current_post.title))
+                if operation == "edit":
+                    t_values['current_post'] = current_post
+                elif operation == "publish":
+                    current_post.is_external_page = True
+                    current_post.put()
+                    t_values['alert_message'] = "Post %s has been changed to public" % (current_post.title)
+                elif operation == "unpublish":
+                    current_post.is_external_page = False
+                    current_post.put()
+                    t_values['alert_message'] = "Post %s has been changed to private" % (current_post.title)
+                elif operation == "delete":
+                    current_post.delete()
+                    t_values['alert_message'] = "Post %s has been changed to deleted" % (current_post.title)
+
+        # show all posts
+        posts = Entry.all().filter("entrytype =", 'page')
+        t_values['posts'] = posts
+        return self.response.out.write(render_template("pages.html", t_values, "", True))
+
+    def post(self):
+        t_values = {}
+        # add new post or edit existed post
+        current_post_id = self.request.POST["current_post_id"]
+        if current_post_id:
+            logging.info("PageManager: post : current_post_id = %s" % (current_post_id))
+            # update existed post
+            post = Entry.get_by_id(long(current_post_id))
+            if post:
+                t_values['alert_message'] = "Post %s has been updated!" % (post.title)
+                post.title = self.request.POST["blog_title"]
+                post.slug = get_safe_slug(self.request.POST["blog_slug"])
+                post.content = self.request.POST["blog_content"]
+                post.entrytype = 'page'
+                post.put()
+
+        else:
+            logging.info("PageManager: post : new post title %s" % (self.request.POST['blog_title']))
+            # create new post
+            post = Entry()
+            post.title = self.request.POST["blog_title"]
+            post.slug = get_safe_slug(self.request.POST["blog_slug"])
+            post.content = self.request.POST["blog_content"]
+            # post.categories = self.request.POST["blog_categories"]
+            operation = self.request.POST["submit_action"]
+            logging.info("operation = %s" % (operation))
+            if operation == "save_publish":
+                post.is_external_page = True
+            else:  # "save" operation
+                post.is_external_page = False
+            post.entrytype = 'page'
+            post.put()
+
+            t_values['alert_message'] = "Page %s: %s has been created!" % (post.title, post.entrytype)
+
+        # show all posts
+        posts = Entry.all().filter("entrytype =", 'page')
+        t_values['posts'] = posts
+        return self.response.out.write(render_template("pages.html", t_values, "", True))
 
 
 class LinkManager(BaseRequestHandler):
@@ -157,6 +229,8 @@ routes = [
           RedirectRoute('/admin/', handler='admin.Admin', name="admin", strict_slash=True),
           Route('/admin/posts', handler='admin.PostManager', name="admin.posts"),
           Route('/admin/posts/<post_id>/<operation>', handler='admin.PostManager', name="admin.posts.operation"),
+          Route('/admin/pages', handler='admin.PageManager', name="admin.pages"),
+          Route('/admin/pages/<page_id>/<operation>', handler='admin.PageManager', name="admin.pages.operation"),
           Route('/admin/links', handler='admin.LinkManager', name="admin.links"),
           Route('/admin/links/<link_id>/<operation>', handler='admin.LinkManager', name="admin.links.operation"),
           ]

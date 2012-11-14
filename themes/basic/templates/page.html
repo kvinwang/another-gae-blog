@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}{% if post %} {{ post.title }} {% else %}Invalid Post{% endif %}{% endblock %}
+
+{% block blog_entries %}
+
+    {% if post %}
+
+{% include 'post_block.html' %}
+
+	{% endif %}
+        
+{% endblock %}
