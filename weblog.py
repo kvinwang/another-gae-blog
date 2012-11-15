@@ -134,9 +134,9 @@ class PostHandler(BaseRequestHandler):
                 t_values['post'] = post
                 # dump(post)
 
-                # check google recaptcha
-                recaptcha_challenge_field = self.request.POST['recaptcha_challenge_field']
-                recaptcha_response_field = self.request.POST['recaptcha_response_field']
+                # check google recaptcha, these two fileds might not exist due to connection to reCAPTCHA
+                recaptcha_challenge_field = self.request.POST.get('recaptcha_challenge_field', "")
+                recaptcha_response_field = self.request.POST.get('recaptcha_response_field', "")
                 remote_ip = self.request.environ['REMOTE_ADDR']
                 private_key = "6LdwFdISAAAAAOYRK7ls3O-kXPTnYDEstrLM2MRo"
                 antispam_flag = False
@@ -151,12 +151,13 @@ class PostHandler(BaseRequestHandler):
 
                 # create comment for this post
                 if antispam_flag:
-                    logging.info("add comment")
+                    logging.info("PostManager - add comment")
                     comm_author = self.request.POST['author']
                     comm_email = self.request.POST['email']
                     comm_weburl = self.request.POST['weburl']
                     comm_content = self.request.POST['comment']
-                    comm = Comment(entry=post, author=comm_author, email=comm_email, weburl=comm_weburl, content=comm_content)
+                    comment_ip = self.request.environ['REMOTE_ADDR']
+                    comm = Comment(entry=post, author=comm_author, email=comm_email, weburl=comm_weburl, content=comm_content, ip=comment_ip)
                     comm.put()
                     t_values['alert_message'] = "Thanks %s for your comment!" % (comm_author)
                 else:

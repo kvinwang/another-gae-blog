@@ -11,7 +11,8 @@ import webapp2
 from google.appengine.ext.webapp.util import run_wsgi_app
 from webapp2 import uri_for, Route
 from webapp2_extras.routes import RedirectRoute
-from model import Entry, Link
+from webapp2_extras import json
+from model import Entry, Link, Comment
 import logging
 
 # load modules defined by this app
@@ -169,6 +170,52 @@ class PageManager(BaseRequestHandler):
         return self.response.out.write(render_template("pages.html", t_values, "", True))
 
 
+class CommentManager(BaseRequestHandler):
+    def get(self, page_id="", operation=""):
+        # find all comments, and list all comments
+        t_values = {}
+        logging.info("CommentManager get")
+
+        # show all comments
+        comments = Comment.all().order("entry")
+        t_values['comments'] = comments
+        return self.response.out.write(render_template("comments.html", t_values, "", True))
+
+    def post(self):
+        # this method is reserved for AJAX call to this object
+        # json response
+        result = {'message': ""}
+
+        # post value are organized as {"comment_id":NNN, "operation":"delete"}
+        post_data = self.request.POST.get("data", "")
+        post_dict = json.decode(post_data)
+        comment_id = post_dict.get("comment_id", "")
+        operation = post_dict.get("operation", "")
+        logging.info("CommentManager, post data: comment_id = %s, operation = %s" % (comment_id, operation))
+        if comment_id:
+            comment = Comment.get_by_id(long(comment_id))
+            if comment:
+                if operation == "delete":
+                    # update entry.commentcount
+                    comment.entry.commentcount -= 1
+                    comment.entry.put()
+                    # delete this comment
+                    comment.delete()
+                    result['message'] = "comment '%s' has been deleted" % (comment_id)
+                else:
+                    result['message'] = "unknown operation %s" % (operation)
+            else:
+                result['message'] = "unknown comment id %s" % (comment_id)
+        else:
+            result['message'] = "empty comment id"
+
+        json_response = json.encode(result)
+        logging.info("json response: %s" % (json_response))
+
+        self.response.content_type = "application/json"
+        return self.response.out.write(json_response)
+
+
 class LinkManager(BaseRequestHandler):
     """manage external links for this blog"""
     def get(self, link_id="", operation=""):
@@ -229,6 +276,7 @@ routes = [
           RedirectRoute('/admin/', handler='admin.Admin', name="admin", strict_slash=True),
           Route('/admin/posts', handler='admin.PostManager', name="admin.posts"),
           Route('/admin/posts/<post_id>/<operation>', handler='admin.PostManager', name="admin.posts.operation"),
+          Route('/admin/comments', handler='admin.CommentManager', name="admin.comments"),
           Route('/admin/pages', handler='admin.PageManager', name="admin.pages"),
           Route('/admin/pages/<page_id>/<operation>', handler='admin.PageManager', name="admin.pages.operation"),
           Route('/admin/links', handler='admin.LinkManager', name="admin.links"),
