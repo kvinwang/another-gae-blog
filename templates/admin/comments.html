@@ -6,11 +6,11 @@
 
 <div id="posts_container" class="span10 offset1">
         
-        <div class="alert alert-info" id="alert-message" style="visibility:hidden">
+        <div class="alert alert-info" id="alert-message" style="display:none">
             <a class="close" data-dismiss="alert">&times;</a>
             <strong>{{ _("Information") }}:</strong> 
             <br/>
-            <p id="alert_message_text"></p>
+            <p id="alert-message-text"></p>
         </div>
 
     <table class="table table-hover">
@@ -59,10 +59,9 @@
           function (data, textStatus)
           {
               // result = {'message': ""}
-              document.getElementById("alert-message").style.visibility="visible";
-              document.getElementById('alert_message_text').innerHTML = data['message'];
-              var tr = document.getElementById("comment_" + comment_id)
-              tr.parentNode.removeChild(tr);
+              $('#alert-message-text').html(data['message']);
+              $("#alert-message").toggle(true);
+              $("#comment_" + comment_id).remove();
           }, "json");
     }
     </script>
