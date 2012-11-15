@@ -216,7 +216,7 @@ class PageHandler(BaseRequestHandler):
 
             pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("date")
             t_values['pages'] = pages
-            
+
             return self.response.out.write(render_template("page.html", t_values, "basic", False))
         else:
             self.redirect(uri_for("weblog.index"))
