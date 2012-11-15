@@ -55,40 +55,15 @@
     <script type="text/javascript">
     function deleteComment(comment_id)
     {
-        // Create an XMLHttpRequest 'POST' request w/ an optional callback handler
-          var req = new XMLHttpRequest();
-          var async = true;
-
-          // Build an Array of parameters, w/ function_name being the first parameter
-          var params = new Object();
-          params.comment_id = comment_id
-          params.operation = "delete"
-          var body = "data=" + JSON.stringify(params);
-          // alert(body)
-
-          req.open('POST', '/admin/comments', async);
-          req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          req.setRequestHeader("Content-length", body.length);
-
-          if (async) {
-            req.onreadystatechange = function() {
-              if(req.readyState == 4 && req.status == 200) {
-                var response = null;
-                try {
-                    response = JSON.parse(req.responseText);
-                    document.getElementById("alert-message").style.visibility="visible";
-                    document.getElementById('alert_message_text').innerHTML = response['message'];
-                    var tr = document.getElementById("comment_"+comment_id)
-                    tr.parentNode.removeChild(tr);
-                } catch (e) {
-                 response = req.responseText;
-                }
-              }
-            }
-          }
-
-          // Make the actual request
-          req.send(body);        
+        $.post("/admin/comments", {"comment_id":comment_id, "operation":"delete"},
+          function (data, textStatus)
+          {
+              // result = {'message': ""}
+              document.getElementById("alert-message").style.visibility="visible";
+              document.getElementById('alert_message_text').innerHTML = data['message'];
+              var tr = document.getElementById("comment_" + comment_id)
+              tr.parentNode.removeChild(tr);
+          }, "json");
     }
     </script>
 
