@@ -282,18 +282,28 @@ class CategoryManager(BaseRequestHandler):
 
         result = {'message': ''}
 
+        logging.info(self.request.POST)
         current_cate_id = self.request.POST.get("current_cate_id")
-        cate_name = self.request.POST.get("current_cate_id")
-        cate_slug = self.request.POST.get("current_cate_id")
-        logging.info("CategoryManager post: current_cate_id = %s, cate_name = %s, cate_slug = %s" % (current_cate_id, cate_name, cate_slug))
+        cate_name = self.request.POST.get("cate_name")
+        cate_slug = self.request.POST.get("cate_slug")
+        operation = self.request.POST.get("operation")
+        logging.info("CategoryManager post: current_cate_id = %s, cate_name = %s, cate_slug = %s, operation = %s" % (current_cate_id, cate_name, cate_slug, operation))
 
         if current_cate_id:
             # edit existed link
             cate = Category.get_by_id(long(current_cate_id))
-            cate.name = cate_name
-            cate.slug = cate_slug
-            cate.put()
-            result['message'] = "category %s has been updated" % (cate.name)
+            if cate:
+                # current_cate_id exists
+                if operation == "delete":
+                    cate.delete()
+                    result['message'] = "category %s has been deleted" % (current_cate_id)
+                else:
+                    cate.name = cate_name
+                    cate.slug = cate_slug
+                    cate.put()
+                    result['message'] = "category %s has been updated" % (cate.name)
+            else:
+                logging.info("category id=%s does not exist!" % (current_cate_id))
         else:
             # create new cate
             cate = Category(name=cate_name, slug=cate_slug)
