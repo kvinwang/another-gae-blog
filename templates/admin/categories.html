@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Categories Management{% endblock %}
+
+{% block admin_content %}
+<div id="links_container" class="span8 offset2">
+
+<div class="alert alert-info" style="display:none">
+    <a class="close" data-dismiss="alert">&times;</a>
+    <strong>Information!</strong> 
+    <p id="alert-info-message"></p>
+</div>
+
+
+<table class="table table-hover">
+    <caption><h3 class="pull-left">Categories for this website:</h3></caption>
+    <thead class="">
+        <tr>
+            <td>{{ _("Name") }}</td>
+            <td>{{ _("Slug") }}</td>
+        </tr>
+    </thead>
+    <tbody>
+{% for cate in categories %}
+    <tr class="">
+        <td>{{ cate.name }}</td>
+        <td>{{ cate.slug }}</td>
+        <td>
+            <div class="btn-group">
+                <a class="btn btn-mini btn btn-info" onClick="editCategory({{ cate.key().id() }})">Edit</a>
+                <a class="btn btn-mini btn-danger" onClick="deleteCategory({{ cate.key().id() }})">Delete</a>
+            </div>
+        </td>
+    </tr>
+{% endfor %}
+
+    </tbody>
+</table>
+
+    
+<form class="form-horizontal" action="" method="post" id="category">
+    <fieldset>
+        <legend><h3>Add New Category:</h3></legend>
+        <div class="control-group">
+            <label class="control-label" for="cate_name">Name</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="cate_name" id="cate_name" value="" placeholder="Category name">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="cate_slug">Slug</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="cate_slug" id="cate_slug" value="" placeholder="Slug for Category">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" in="category_submit">Save</button>
+            <input type="hidden" name="current_cate_id" value="">
+        </div>
+    </fieldset>
+</form>                
+</div><!-- links_container -->
+
+{% endblock %}
+
+    {% block extra_js_block %}
+    <script  type="text/javascript">
+    // set click function for submit button in form
+    $('input#category_submit').click( function() {
+        $.ajax({
+            url: '/categories',
+            type: 'post',
+            dataType: 'json',
+            data: $('form#category').serialize(),
+            success: function(data){
+                alert(date.message)
+                }
+        });
+    });    
+    </script>
+        
+    {% endblock %}

@@ -12,7 +12,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from webapp2 import uri_for, Route
 from webapp2_extras.routes import RedirectRoute
 from webapp2_extras import json
-from model import Entry, Link, Comment
+from model import Entry, Link, Comment, Category
 import logging
 
 # load modules defined by this app
@@ -270,6 +270,44 @@ class LinkManager(BaseRequestHandler):
         return self.response.out.write(render_template("links.html", t_values, "", True))
 
 
+class CategoryManager(BaseRequestHandler):
+    """manage categoriesfor this blog"""
+    def get(self):
+        t_values = {}
+        logging.info("CategoryManager: get")
+
+        # find all categories
+        cates = Category.all().order("name")
+        t_values["categories"] = cates
+        return self.response.out.write(render_template("categories.html", t_values, "", True))
+
+    # add new link, or update existed link
+    def post(self):
+
+        result = {'message': ''}
+
+        current_cate_id = self.request.POST.get("current_cate_id")
+        cate_name = self.request.POST.get("current_cate_id")
+        cate_slug = self.request.POST.get("current_cate_id")
+        logging.info("CategoryManager post: current_cate_id = %s, cate_name = %s, cate_slug = %s" % (current_cate_id, cate_name, cate_slug))
+
+        if current_cate_id:
+            # edit existed link
+            cate = Category.get_by_id(long(current_cate_id))
+            cate.name = cate_name
+            cate.slug = cate_slug
+            cate.put()
+            result['message'] = "category %s has been updated" % (cate.name)
+        else:
+            # create new cate
+            cate = Category(name=cate_name, slug=cate_slug)
+            cate.put()
+            result['message'] = "category %s has been created" % (cate.name)
+
+        # return json result
+        self.response.content_type = 'application/json'
+        return self.response.out.write(json.encode(result))
+
 # define routers
 # see http://webapp-improved.appspot.com/api/webapp2_extras/routes.html
 routes = [
@@ -277,6 +315,7 @@ routes = [
           Route('/admin/posts', handler='admin.PostManager', name="admin.posts"),
           Route('/admin/posts/<post_id>/<operation>', handler='admin.PostManager', name="admin.posts.operation"),
           Route('/admin/comments', handler='admin.CommentManager', name="admin.comments"),
+          Route('/admin/categories', handler='admin.CategoryManager', name="admin.categories"),
           Route('/admin/pages', handler='admin.PageManager', name="admin.pages"),
           Route('/admin/pages/<page_id>/<operation>', handler='admin.PageManager', name="admin.pages.operation"),
           Route('/admin/links', handler='admin.LinkManager', name="admin.links"),
