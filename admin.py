@@ -185,12 +185,8 @@ class CommentManager(BaseRequestHandler):
         # this method is reserved for AJAX call to this object
         # json response
         result = {'message': ""}
-
-        # post value are organized as {"comment_id":NNN, "operation":"delete"}
-        post_data = self.request.POST.get("data", "")
-        post_dict = json.decode(post_data)
-        comment_id = post_dict.get("comment_id", "")
-        operation = post_dict.get("operation", "")
+        comment_id = self.request.POST.get("comment_id", "")
+        operation = self.request.POST.get("operation", "")
         logging.info("CommentManager, post data: comment_id = %s, operation = %s" % (comment_id, operation))
         if comment_id:
             comment = Comment.get_by_id(long(comment_id))
