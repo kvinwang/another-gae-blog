@@ -12,7 +12,6 @@ class Category(db.Model):
     name = db.StringProperty(multiline=False)
     slug = db.StringProperty(multiline=False)
     entrycount = db.IntegerProperty(default=0)
-    alias = db.StringProperty(multiline=False)
 
 
 class Entry(db.Model):

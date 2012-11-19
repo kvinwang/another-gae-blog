@@ -24,7 +24,7 @@
     <!-- comments section here -->
     <div class="ctop"></div>
     <div class="box">
-        <h4 id="comments">{{ comments.count() }} Responses to "{{ post.title }}":</h4>
+        <h4 id="comments">{{ comments.count() }} {{ _("Responses to") }} "{{ post.title }}":</h4>
         <ol class="commentlist">
             {% for comment in comments %}
             <li class="alt" id="comment-226002">
