@@ -1,5 +1,5 @@
 /*!
- * Bootstrap v2.2.0
+ * Bootstrap v2.2.1
  *
  * Copyright 2012 Twitter, Inc
  * Licensed under the Apache License v2.0
@@ -1852,7 +1852,7 @@ legend + .control-group {
 
 .form-horizontal .control-label {
   float: left;
-  width: 100px;
+  width: 160px;
   padding-top: 5px;
   text-align: right;
 }
@@ -1860,7 +1860,7 @@ legend + .control-group {
 .form-horizontal .controls {
   *display: inline-block;
   *padding-left: 20px;
-  margin-left: 120px;
+  margin-left: 180px;
   *margin-left: 0;
 }
 

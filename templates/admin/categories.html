@@ -67,7 +67,7 @@
     {% block extra_js_block %}
     <script  type="text/javascript">
     // set click function for submit button in form
-    $("button#category_submit").click(function updateCategory() {
+    $("button#category_submit").click(function updateCategory(event) {
         $.ajax({
             url: '/admin/categories',
             type: 'post',
@@ -101,7 +101,8 @@
                 if ($("#cate_slug").val() == "") { alert("Category Slug can't be empty"); return false;}
             }            
         });
-        return false;
+        // remove default function of submit button
+        event.preventDefault();
     });
 
     function editCategory(cate_id){

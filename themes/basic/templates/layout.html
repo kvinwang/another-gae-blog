@@ -61,7 +61,7 @@
                 <ul class="nav nav-list pull-center">
                     <li class="nav-header">{{ _("Categories") }}</li>
                     {% for category in categories %}
-                        <li><A href="">{{ category.name }}</a></li>
+                        <li><A href="/cate/{{ category.slug }}">{{ category.name }} ({{ category.entrycount }})</a></li>
                     {% endfor %}
                 </ul>
                 <br/>

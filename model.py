@@ -7,6 +7,14 @@ from google.appengine.ext import db
 # from google.appengine.api import users
 
 
+class Category(db.Model):
+    uid = db.IntegerProperty()
+    name = db.StringProperty(multiline=False)
+    slug = db.StringProperty(multiline=False)
+    entrycount = db.IntegerProperty(default=0)
+    alias = db.StringProperty(multiline=False)
+
+
 class Entry(db.Model):
     author = db.UserProperty()
     author_name = db.StringProperty()
@@ -17,7 +25,7 @@ class Entry(db.Model):
     date = db.DateTimeProperty(auto_now_add=True)
     mod_date = db.DateTimeProperty(auto_now_add=True)
     tags = db.StringListProperty()
-    categorie_keys = db.ListProperty(db.Key)
+    category = db.ReferenceProperty(Category)
     slug = db.StringProperty(multiline=False, default='')
     link = db.StringProperty(multiline=False, default='')
     monthyear = db.StringProperty(multiline=False)
@@ -49,13 +57,6 @@ class Entry(db.Model):
     _relatepost = None
 
 
-class Category(db.Model):
-    uid = db.IntegerProperty()
-    name = db.StringProperty(multiline=False)
-    slug = db.StringProperty(multiline=False)
-    # parent_cat = db.SelfReferenceProperty()
-
-
 class Link(db.Model):
     title = db.StringProperty(required=True)
     target = db.StringProperty(required=True)
@@ -72,4 +73,3 @@ class Comment(db.Model):
     email = db.EmailProperty()
     weburl = db.URLProperty()
     ip = db.StringProperty()
-

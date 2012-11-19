@@ -48,26 +48,36 @@ class IndexHandler(BaseRequestHandler):
     '''
     classdocs
     '''
-    def get(self, page="1"):
+    def get(self, page="1", cate_slug=""):
         t_values = {}
         page = int(page)
-        logging.info("IndexHandler - get: page = %d" % (page))
+        logging.info("IndexHandler - get: page = %d, cate_slug = %s" % (page, cate_slug))
 
         # find all entries by order
         query = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'post').order("-date")
+        # add category filter?
+        if cate_slug:
+            cates = Category.all().filter("slug =", cate_slug)
+            if cates:
+                query = query.filter("category =", cates[0])
+
+        # pagination
         total_posts = query.count()
         q_limit = Configuration["posts_per_page"]
         q_offset = (page - 1) * Configuration["posts_per_page"]
         logging.info("limit = %d, offset = %d" % (q_limit, q_offset))
 
+        # get entries
         entries = query.fetch(limit=q_limit, offset=q_offset)
-        for entry in entries:
-            logging.info("entry title: %s, is_external_page = %s" % (entry.title, entry.is_external_page))
         t_values['entries'] = entries
+
+        # show entries for debug purpose
+        # for entry in entries:
+        #     logging.info("entry title: %s, public = %s, cate = %s" % (entry.title, entry.is_external_page, entry.category.name))
 
         logging.info("total posts = %d, current_page = %d, posts_per_page = %d" % (total_posts, page, Configuration['posts_per_page']))
         t_values['navlist'] = generateNavList(total_posts, page, Configuration["posts_per_page"])
-        logging.info(t_values['navlist'])
+        # logging.info(t_values['navlist'])
 
         # find all links
         links = Link.all().order("date")
@@ -77,6 +87,7 @@ class IndexHandler(BaseRequestHandler):
         categories = Category.all()
         t_values['categories'] = categories
 
+        # find all pages
         pages = Entry.all().filter("is_external_page =", True).filter("entrytype =", 'page').order("date")
         t_values['pages'] = pages
 
@@ -261,6 +272,8 @@ class InitBlog(BaseRequestHandler):
 routes = [
           Route('/', handler='weblog.IndexHandler', name="weblog.index"),
           Route('/<page:\d+>', handler='weblog.IndexHandler', name="weblog.index.page"),
+          Route('/cate/<cate_slug>', handler='weblog.IndexHandler', name="weblog.index.cate"),
+
           Route('/page/<page_slug>', handler='weblog.PageHandler', name="weblog.page"),
           Route('/post/<post_slug>', handler='weblog.PostHandler', name="weblog.post"),
           Route('/init', handler='weblog.InitBlog', name="init"),

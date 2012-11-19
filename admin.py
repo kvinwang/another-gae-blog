@@ -44,53 +44,91 @@ class PostManager(BaseRequestHandler):
                 if operation == "edit":
                     t_values['current_post'] = current_post
                 elif operation == "publish":
-                    current_post.is_external_page = True
-                    current_post.put()
-                    t_values['alert_message'] = "Post %s has been changed to public" % (current_post.title)
+                    if not current_post.is_external_page:
+                        current_post.category.entrycount += 1
+                        current_post.category.put()
+                        current_post.is_external_page = True
+                        current_post.put()
+                        t_values['alert_message'] = "Post %s has been changed to public" % (current_post.title)
+                    else:
+                        t_values['alert_message'] = "Post %s was public already" % (current_post.title)
                 elif operation == "unpublish":
-                    current_post.is_external_page = False
-                    current_post.put()
-                    t_values['alert_message'] = "Post %s has been changed to private" % (current_post.title)
+                    if current_post.is_external_page:
+                        current_post.category.entrycount -= 1
+                        current_post.category.put()
+                        current_post.is_external_page = False
+                        current_post.put()
+                        t_values['alert_message'] = "Post %s has been changed to private" % (current_post.title)
+                    else:
+                        t_values['alert_message'] = "Post %s was private already" % (current_post.title)
                 elif operation == "delete":
+                    if current_post.is_external_page:
+                        current_post.category.entrycount -= 1
+                        current_post.category.put()
                     current_post.delete()
                     t_values['alert_message'] = "Post %s has been changed to deleted" % (current_post.title)
 
         # show all posts
         posts = Entry.all().filter("entrytype =", 'post')
         t_values['posts'] = posts
+
+        # load all categories
+        categories = Category.all().order("name")
+        t_values['categories'] = categories
+
         return self.response.out.write(render_template("posts.html", t_values, "", True))
 
     def post(self):
-        t_values = {}
         # add new post or edit existed post
+        t_values = {}
         current_post_id = self.request.POST["current_post_id"]
+        post_title = self.request.POST["blog_title"]
+        post_slug = get_safe_slug(self.request.POST["blog_slug"])
+        post_content = self.request.POST["blog_content"]
+        # find category
+        blog_category_id = self.request.POST["blog_category_id"]
+        post_category = Category.get_by_id(long(blog_category_id))
+        if post_category:
+            logging.info("find category %s for id %s" % (post_category.name, blog_category_id))
+
         if current_post_id:
-            logging.info("PostManager: post : current_post_id = %s" % (current_post_id))
+            logging.info("PostManager: post : edit post current_post_id = %s" % (current_post_id))
             # update existed post
             post = Entry.get_by_id(long(current_post_id))
             if post:
                 t_values['alert_message'] = "Post %s has been updated!" % (post.title)
-                post.title = self.request.POST["blog_title"]
-                post.slug = get_safe_slug(self.request.POST["blog_slug"])
-                post.content = self.request.POST["blog_content"]
-                post.entrytype = 'post'
+                post.title = post_title
+                post.slug = post_slug
+                post.content = post_content
+                post.entrytype = "post"
+                # update category count if this post is public
+                if post.is_external_page and post.category != post_category:
+                    if post.category.entrycount > 0:
+                        post.category.entrycount -= 1
+                        post.category.put()
+                    post_category.entrycount += 1
+                    post.category.put()
+                post.category = post_category
                 post.put()
-
         else:
             logging.info("PostManager: post : new post title %s" % (self.request.POST['blog_title']))
             # create new post
             post = Entry()
-            post.title = self.request.POST["blog_title"]
-            post.slug = get_safe_slug(self.request.POST["blog_slug"])
-            post.content = self.request.POST["blog_content"]
-            # post.categories = self.request.POST["blog_categories"]
+            post.title = post_title
+            post.slug = post_slug
+            post.content = post_content
+            post.entrytype = 'post'
+            post.category = post_category
+            # is public?
             operation = self.request.POST["submit_action"]
-            logging.info("operation = %s" % (operation))
             if operation == "save_publish":
                 post.is_external_page = True
+                # update category count
+                post.category.entrycount += 1
+                post.category.put()
             else:  # "save" operation
                 post.is_external_page = False
-            post.entrytype = 'post'
+            # save the post
             post.put()
             t_values['alert_message'] = "Post %s has been created!" % (post.title)
 
@@ -295,8 +333,11 @@ class CategoryManager(BaseRequestHandler):
             if cate:
                 # current_cate_id exists
                 if operation == "delete":
-                    cate.delete()
-                    result['message'] = "category %s has been deleted" % (current_cate_id)
+                    if cate.entrycount == 0:
+                        cate.delete()
+                        result['message'] = "category %s has been deleted" % (current_cate_id)
+                    else:
+                        result['message'] = "category %s can't be delete since it's still being used!" % (current_cate_id)
                 else:
                     cate.name = cate_name
                     cate.slug = cate_slug

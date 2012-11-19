@@ -68,14 +68,16 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="blog_categories">{{ _("Categories") }}</label>
+            <label class="control-label" for="blog_category">{{ _("Category") }}</label>
             <div class="controls">
-                <select multiple="multiple" name="blog_categories">
-                    <option>cat 1</option>
-                    <option>cat 2</option>
-                    <option>cat 3</option>
-                    <option>cat 4</option>
-                    <option>cat 5</option>
+                <select name="blog_category_id">
+                {% for cate in categories %}
+                    {% if current_post and current_post.category.name == cate.name %}
+                        <option  value="{{ cate.key().id() }}" selected>{{ cate.name }}</option>
+                    {% else %}
+                        <option  value="{{ cate.key().id() }}">{{ cate.name }}</option>
+                    {% endif %}
+                {% endfor %}
                 </select>
             </div>
         </div>
