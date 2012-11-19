@@ -68,18 +68,6 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="blog_categories">{{ _("Categories") }}</label>
-            <div class="controls">
-                <select multiple="multiple" name="blog_categories">
-                    <option>cat 1</option>
-                    <option>cat 2</option>
-                    <option>cat 3</option>
-                    <option>cat 4</option>
-                    <option>cat 5</option>
-                </select>
-            </div>
-        </div>
-        <div class="control-group">
             <label class="control-label" for="blog_content">{{ _("Content") }}</label>
             <div class="controls">
                 <textarea class="ckeditor" name="blog_content" rows="50">{% if current_post %}{{current_post.content}}{% endif %}</textarea>
