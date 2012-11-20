@@ -73,41 +73,46 @@
             type: 'post',
             dataType: 'json',
             data: $('form#category').serialize(),
-            success: function(data, state){
+            success: function(data, state) {
                 // show alert message
                 $("#alert-info-message").html(data.message);
                 $(".alert-info").toggle(true);
 
                 // for updating category, update existed cate in the list
                 var cate_id = $("form #current_cate_id").val();
-                if(cate_id != ""){
+                if(cate_id != "") {
                     // update category in the list
-                    $("#cate_"+cate_id+" #name").text($("form #cate_name").val())
-                    $("#cate_"+cate_id+" #slug").text($("form #cate_slug").val());
+                    $("#cate_" + cate_id + " #name").text($("form #cate_name").val())
+                    $("#cate_" + cate_id + " #slug").text($("form #cate_slug").val());
                 }
 
                 // for adding category, add new cate to the list
                 // TODO
-
                 // clear form
                 document.getElementById("category").reset();
                 $("form#category #current_cate_id").val("");
             },
-            error: function(e){    
+            error: function(e) {
                 alert(e);
             },
-            beforeSend: function(){
-                if ($("#cate_name").val() == "") { alert("Category Name can't be empty"); return false;}
-                if ($("#cate_slug").val() == "") { alert("Category Slug can't be empty"); return false;}
-            }            
+            beforeSend: function() {
+                if($("#cate_name").val() == "") {
+                    alert("Category Name can't be empty");
+                    return false;
+                }
+                if($("#cate_slug").val() == "") {
+                    alert("Category Slug can't be empty");
+                    return false;
+                }
+            }
         });
         // remove default function of submit button
         event.preventDefault();
     });
 
-    function editCategory(cate_id){
-        $("form #cate_name").val($("#cate_"+cate_id+" #name").text());
-        $("form #cate_slug").val($("#cate_"+cate_id+" #slug").text());
+    function editCategory(cate_id) {
+        $("form #cate_name").val($("#cate_" + cate_id + " #name").text());
+        $("form #cate_slug").val($("#cate_" + cate_id + " #slug").text());
         $("form #current_cate_id").val(cate_id);
     }
 
@@ -116,17 +121,19 @@
             url: '/admin/categories',
             type: 'post',
             dataType: 'json',
-            data: {"current_cate_id":cate_id, "operation":"delete"},
-            success: function(data, state){
+            data: {
+                "current_cate_id": cate_id,
+                "operation": "delete"
+            },
+            success: function(data, state) {
                 // show alert message
                 $("#alert-info-message").html(data.message);
                 $(".alert-info").toggle(true);
                 // remove tr for cate_id
-                $("tr#cate_"+cate_id).remove();
+                $("tr#cate_" + cate_id).remove();
             }
         });
     }
 
     </script>
-        
     {% endblock %}
