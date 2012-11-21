@@ -26,8 +26,16 @@ class Admin(BaseRequestHandler):
     '''
 
     def get(self):
+        # find stats for this blog
+        stats = {}
+        stats['posts'] = Entry.all().filter("entrytype =", "post").filter("is_external_page =", True).count()
+        stats['pages'] = Entry.all().filter("entrytype =", "page").filter("is_external_page =", True).count()
+        stats['comments'] = Comment.all().count()
+        stats['categories'] = Category.all().count()
+        stats['links'] = Link.all().count()
+
         t_values = {}
-        t_values['entry'] = ""
+        t_values['stats'] = stats
         return self.response.out.write(render_template("index.html", t_values, "", True))
 
 
