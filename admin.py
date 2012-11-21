@@ -90,6 +90,8 @@ class PostManager(BaseRequestHandler):
         post_category = Category.get_by_id(long(blog_category_id))
         if post_category:
             logging.info("find category %s for id %s" % (post_category.name, blog_category_id))
+        else:
+            logging.error("category id %s can't be located" % (blog_category_id))
 
         if current_post_id:
             logging.info("PostManager: post : edit post current_post_id = %s" % (current_post_id))
@@ -103,7 +105,7 @@ class PostManager(BaseRequestHandler):
                 post.entrytype = "post"
                 # update category count if this post is public
                 if post.is_external_page and post.category != post_category:
-                    if post.category.entrycount > 0:
+                    if post.category and (post.category.entrycount > 0):
                         post.category.entrycount -= 1
                         post.category.put()
                     post_category.entrycount += 1
@@ -119,7 +121,7 @@ class PostManager(BaseRequestHandler):
             post.content = post_content
             post.entrytype = 'post'
             post.category = post_category
-            # is public?
+            # save as public or private?
             operation = self.request.POST["submit_action"]
             if operation == "save_publish":
                 post.is_external_page = True
