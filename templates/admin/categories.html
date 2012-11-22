@@ -23,16 +23,7 @@
     </thead>
     <tbody id="categories">
 {% for cate in categories %}
-    <tr id="cate_{{ cate.key().id() }}">
-        <td id="name">{{ cate.name }}</td>
-        <td id="slug">{{ cate.slug }}</td>
-        <td>
-            <div class="btn-group">
-                <a class="btn btn-mini btn btn-info" onClick="editCategory({{ cate.key().id() }})">Edit</a>
-                <a class="btn btn-mini btn-danger" onClick="deleteCategory({{ cate.key().id() }})">Delete</a>
-            </div>
-        </td>
-    </tr>
+{% include 'category_block.html' %}
 {% endfor %}
 
     </tbody>
@@ -87,7 +78,8 @@
                 }
 
                 // for adding category, add new cate to the list
-                // TODO
+                $("tbody#categories").append(data.content)
+                
                 // clear form
                 document.getElementById("category").reset();
                 $("form#category #current_cate_id").val("");
@@ -130,7 +122,10 @@
                 $("#alert-info-message").html(data.message);
                 $(".alert-info").toggle(true);
                 // remove tr for cate_id
-                $("tr#cate_" + cate_id).remove();
+                if (data.status == 'success') {
+                    // don't remove this unless status == 'success'
+                    $("tr#cate_" + cate_id).remove();
+                }
             }
         });
     }

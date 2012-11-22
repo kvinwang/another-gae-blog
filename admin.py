@@ -327,8 +327,7 @@ class CategoryManager(BaseRequestHandler):
 
     # add new link, or update existed link
     def post(self):
-
-        result = {'message': ''}
+        result = {'message': '', 'status': 'success', 'content': ''}
 
         logging.info(self.request.POST)
         current_cate_id = self.request.POST.get("current_cate_id")
@@ -347,6 +346,7 @@ class CategoryManager(BaseRequestHandler):
                         cate.delete()
                         result['message'] = "category %s has been deleted" % (current_cate_id)
                     else:
+                        result['status'] = 'failed'
                         result['message'] = "category %s can't be delete since it's still being used!" % (current_cate_id)
                 else:
                     cate.name = cate_name
@@ -360,6 +360,8 @@ class CategoryManager(BaseRequestHandler):
             cate = Category(name=cate_name, slug=cate_slug)
             cate.put()
             result['message'] = "category %s has been created" % (cate.name)
+            result['content'] = render_template("category_block.html", {'cate': cate}, "", True)
+            logging.info("content = %s" % (result['content']))
 
         # return json result
         self.response.content_type = 'application/json'

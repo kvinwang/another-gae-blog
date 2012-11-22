@@ -1,0 +1,10 @@
+    <tr id="cate_{{ cate.key().id() }}">
+        <td id="name">{{ cate.name }}</td>
+        <td id="slug">{{ cate.slug }}</td>
+        <td>
+            <div class="btn-group">
+                <a class="btn btn-mini btn btn-info" onClick="editCategory({{ cate.key().id() }})">Edit</a>
+                <a class="btn btn-mini btn-danger" onClick="deleteCategory({{ cate.key().id() }})">Delete</a>
+            </div>
+        </td>
+    </tr>
