@@ -1,5 +1,5 @@
 cron:
 - description: IM-A820L firmware monitoring
   url: /tasks/a820l
-  schedule: every 10 minutes from 06:00 to 22:00
+  schedule: every 2 hours from 06:00 to 22:00
   timezone: Asia/Shanghai

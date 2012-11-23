@@ -1,5 +1,5 @@
 application: zhengfablog
-version: 20121119
+version: 20121123
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -10,17 +10,26 @@ handlers:
 - url: /static
   static_dir: static/
 
+# ckeditor.zip, using zipserve 
+# there can only be one zipserve in one app, so please put other files into this zip if necessary
 - url: /ckeditor/.*
   script: $PYTHON_LIB/google/appengine/ext/zipserve
 
+# themes directory can't be served by static_dir since templates should be accessable by codes
 - url: /themes/.*
   script: theme_files.py
 
+# admin urls
 - url: /admin
   script: admin.py
   login: admin
 - url: /admin/.*
   script: admin.py
+  login: admin
+
+
+- url: /tasks
+  script: tasks.py
   login: admin
 - url: /tasks/.*
   script: tasks.py

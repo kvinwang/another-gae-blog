@@ -1,5 +1,5 @@
 '''
-Entry of WEBlog
+Cronned tasks
 
 Created on 2012-10-26
 
@@ -9,6 +9,7 @@ Created on 2012-10-26
 import webapp2
 from webapp2 import RequestHandler
 from google.appengine.ext.webapp.util import run_wsgi_app
+from webapp2_extras.routes import RedirectRoute
 from webapp2 import uri_for, Route
 from google.appengine.api.urlfetch import fetch, InvalidURLError
 from google.appengine.api import mail
@@ -21,39 +22,57 @@ import logging
 # load modules defined by this app
 
 
-SKY_URL = "http://dmfile.curitel.com/self_binary/sky_binary/real/download.inf"
+class IndexHandler(RequestHandler):
+    '''
+    classdocs
+    '''
+    def get(self):
+        content = "<h1>list of tasks</h1>"
+        content += "<ul>"
+        content += "<li><a href='%s'>%s</a></li>" % (uri_for("tasks.a820l"), "A820L")
+        # add your task here
+        # content +=
+        content += "</ul>"
+        return self.response.out.write(content)
 
 
 class A820LHandler(RequestHandler):
     '''
     classdocs
     '''
+    SKY_URL = "http://dmfile.curitel.com/self_binary/sky_binary/real/download.inf"
+
     def get(self):
+        page_content = ""
         try:
-            content = fetch(SKY_URL).content
+            content = fetch(self.SKY_URL).content
             config = ConfigParser()
             config.readfp(io.BytesIO(content))
 
             timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d")
-            title = "A820L Firmware - Unknown @ (GAE) %s" % (timestamp)
-            message = "version not available"
             if config.has_section("IM-A820L"):
                 version = config.get("IM-A820L", "Version")
                 if version != "S1231153":
                     title = "A820L Firmware - NEW @ (GAE) %s" % (timestamp)
-                    body = "new version available: %s" % (version)
+                    body = "New version available: %s" % (version)
                 else:
                     title = "A820L Firmware - OLD @ (GAE) %s" % (timestamp)
-                    body = "still old version %s" % (version)
+                    body = "Still old version: %s" % (version)
+            else:
+                title = "A820L Firmware - Unknown @ (GAE) %s" % (timestamp)
+                body = "Version not available"
 
             # send email notification
+            body += "\nGenerated at %s GMT" % (datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M"))
             message = mail.EmailMessage()
             message.sender = "dantifer@gmail.com"
             message.subject = title
-            message.to = "zfdang@freewheel.tv"
+            message.to = ["zfdang@freewheel.tv", "dantifer@gmail.com"]
             message.body = body
             message.send()
-            logging.info("Email sent: title = %s, content = %s" % (title, body))
+
+            page_content = "Email sent: title = %s, content = %s" % (title, body)
+            logging.info(page_content)
 
         except InvalidURLError as e:
             # fetch error
@@ -62,6 +81,8 @@ class A820LHandler(RequestHandler):
             # ConfigParser error
             logging.error("A820LHandler ConfigParser.read exception %s" % (e))
 
+        return self.response.out.write(page_content)
+
     def post(self):
         pass
 
@@ -69,6 +90,7 @@ class A820LHandler(RequestHandler):
 ##########################################################
 # define routers
 routes = [
+          RedirectRoute('/tasks/', handler='tasks.IndexHandler', name="tasks.index", strict_slash=True),
           Route('/tasks/a820l', handler='tasks.A820LHandler', name="tasks.a820l"),
           ]
 
