@@ -9,14 +9,14 @@ Created on 2012-10-26
 import webapp2
 # from webapp2 import RequestHandler
 from google.appengine.ext.webapp.util import run_wsgi_app
-from webapp2 import uri_for, Route
+from webapp2 import Route
 from webapp2_extras.routes import RedirectRoute
 from webapp2_extras import json
 from model import Entry, Link, Comment, Category
 import logging
 
 # load modules defined by this app
-from utilities import render_template, dump, get_safe_slug
+from utilities import render_template, get_safe_slug
 from BaseRequestHandler import BaseRequestHandler
 
 
