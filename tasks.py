@@ -17,6 +17,9 @@ import datetime
 import io
 from ConfigParser import ConfigParser, MissingSectionHeaderError
 import logging
+from datetime import datetime
+from pytz.gae import pytz
+
 # from webapp2_extras import i18n
 
 # load modules defined by this app
@@ -49,21 +52,29 @@ class A820LHandler(RequestHandler):
             config = ConfigParser()
             config.readfp(io.BytesIO(content))
 
-            timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+            # get localize time using pytz
+            cst = pytz.timezone("Asia/Shanghai")
+            fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+            sfmt = '%Y-%m-%d %Z'
+            ltime = datetime.now(cst)
+            ltime_str = ltime.strftime(fmt)
+            ltime_str_s = ltime.strftime(sfmt)
+
+            # parse content
             if config.has_section("IM-A820L"):
                 version = config.get("IM-A820L", "Version")
                 if version != "S1231153":
-                    title = "A820L Firmware - NEW @ (GAE) %s" % (timestamp)
+                    title = "A820L Firmware - NEW @ (GAE) %s" % (ltime_str_s)
                     body = "New version available: %s" % (version)
                 else:
-                    title = "A820L Firmware - OLD @ (GAE) %s" % (timestamp)
+                    title = "A820L Firmware - OLD @ (GAE) %s" % (ltime_str_s)
                     body = "Still old version: %s" % (version)
             else:
-                title = "A820L Firmware - Unknown @ (GAE) %s" % (timestamp)
+                title = "A820L Firmware - Unknown @ (GAE) %s" % (ltime_str_s)
                 body = "Version not available"
 
             # send email notification
-            body += "\nGenerated at %s GMT" % (datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M"))
+            body += "\nGenerated at %s GMT" % (ltime_str)
             message = mail.EmailMessage()
             message.sender = "dantifer@gmail.com"
             message.subject = title
