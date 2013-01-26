@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}All Blog Entries{% endblock %}
+
+{% block blog_entries %}
+<!-- start entry -->
+	{% if entries %} 
+		{% for post in entries %}
+			{% include 'post_block.html' %}
+		{% endfor %}
+		{% if navlist %}
+		<div class="pagination pagination-right pagination-small">
+			<ul>
+				{% for nav in navlist %}
+				<li><a href="/{{ nav[0] }}">{{nav[1]}}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+	{% else %} <!-- if entry -->
+		<div class="ctop"></div>
+		<div class="box">
+		<h2>{{ _("Not Found") }}</h2>
+		<p>{{ _("Sorry, but you are looking for something that isn't here") }}.</p>
+		</div>
+		<div class="clear"></div>
+		<div class="cbottom"></div>
+		<div class="space"></div>
+	{% endif %}
+<!-- end entry -->
+
+{% endblock %}
+
+

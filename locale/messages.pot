@@ -1,0 +1,184 @@
+# Translations template for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-11-19 14:32+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: templates/admin/alert.html:8 templates/admin/comments.html:11
+#: templates/admin/pages.html:11 templates/admin/posts.html:11
+#: themes/basic/templates/post.html:11
+msgid "Information"
+msgstr ""
+
+#: templates/admin/categories.html:19 templates/admin/categories.html:46
+#: themes/basic/templates/post.html:54
+msgid "Name"
+msgstr ""
+
+#: templates/admin/categories.html:20 templates/admin/categories.html:52
+#: templates/admin/pages.html:64 templates/admin/posts.html:64
+msgid "Slug"
+msgstr ""
+
+#: templates/admin/categories.html:21 templates/admin/comments.html:27
+#: templates/admin/links.html:23 templates/admin/pages.html:22
+#: templates/admin/posts.html:22
+msgid "Operations"
+msgstr ""
+
+#: templates/admin/comments.html:20
+msgid "Entry"
+msgstr ""
+
+#: templates/admin/comments.html:21
+msgid "Author"
+msgstr ""
+
+#: templates/admin/comments.html:22 themes/basic/templates/post.html:61
+msgid "Email"
+msgstr ""
+
+#: templates/admin/comments.html:23 themes/basic/templates/post.html:68
+msgid "Website"
+msgstr ""
+
+#: templates/admin/comments.html:24 templates/admin/pages.html:83
+#: templates/admin/posts.html:85
+msgid "Content"
+msgstr ""
+
+#: templates/admin/comments.html:25
+msgid "IP"
+msgstr ""
+
+#: templates/admin/comments.html:26 templates/admin/pages.html:20
+#: templates/admin/posts.html:20
+msgid "Date"
+msgstr ""
+
+#: templates/admin/layout.html:33 themes/basic/templates/layout.html:33
+msgid "Posts"
+msgstr ""
+
+#: templates/admin/layout.html:34 themes/basic/templates/layout.html:34
+#: themes/basic/templates/post_block.html:9
+msgid "Comments"
+msgstr ""
+
+#: templates/admin/layout.html:35 templates/admin/pages.html:71
+#: themes/basic/templates/layout.html:35 themes/basic/templates/layout.html:62
+msgid "Categories"
+msgstr ""
+
+#: templates/admin/layout.html:36 themes/basic/templates/layout.html:36
+#: themes/basic/templates/layout.html:69
+msgid "Links"
+msgstr ""
+
+#: templates/admin/layout.html:37 themes/basic/templates/layout.html:37
+msgid "Pages"
+msgstr ""
+
+#: templates/admin/layout.html:38 themes/basic/templates/layout.html:39
+msgid "Settings"
+msgstr ""
+
+#: templates/admin/links.html:19 templates/admin/pages.html:19
+#: templates/admin/pages.html:57 templates/admin/posts.html:19
+#: templates/admin/posts.html:57
+msgid "Title"
+msgstr ""
+
+#: templates/admin/links.html:20
+msgid "Target"
+msgstr ""
+
+#: templates/admin/links.html:21
+msgid "created_at"
+msgstr ""
+
+#: templates/admin/links.html:22
+msgid "Sequence"
+msgstr ""
+
+#: templates/admin/pages.html:21 templates/admin/posts.html:21
+msgid "Published?"
+msgstr ""
+
+#: templates/admin/pages.html:55 templates/admin/posts.html:55
+msgid "Compose your blog"
+msgstr ""
+
+#: templates/admin/pages.html:60 templates/admin/posts.html:60
+msgid "Blog title"
+msgstr ""
+
+#: templates/admin/pages.html:67 templates/admin/posts.html:67
+msgid "Brief title which will be used as part of URL"
+msgstr ""
+
+#: templates/admin/pages.html:90 templates/admin/posts.html:92
+msgid "Save"
+msgstr ""
+
+#: templates/admin/pages.html:91 templates/admin/posts.html:93
+msgid "Save & Publish"
+msgstr ""
+
+#: templates/admin/posts.html:71
+msgid "Category"
+msgstr ""
+
+#: themes/basic/templates/index.html:23
+msgid "Not Found"
+msgstr ""
+
+#: themes/basic/templates/index.html:24
+msgid "Sorry, but you are looking for something that isn't here"
+msgstr ""
+
+#: themes/basic/templates/layout.html:20
+msgid "Search"
+msgstr ""
+
+#: themes/basic/templates/layout.html:24
+msgid "Home"
+msgstr ""
+
+#: themes/basic/templates/layout.html:30
+msgid "Admin"
+msgstr ""
+
+#: themes/basic/templates/layout.html:78
+msgid "Powered by"
+msgstr ""
+
+#: themes/basic/templates/post.html:27
+msgid "Responses to"
+msgstr ""
+
+#: themes/basic/templates/post.html:75
+msgid "Comment"
+msgstr ""
+
+#: themes/basic/templates/post.html:83
+msgid "reCAPTCHA"
+msgstr ""
+
+#: themes/basic/templates/post_block.html:9
+msgid "Posted in"
+msgstr ""
+

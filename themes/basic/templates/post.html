@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %}{% if post %} {{ post.title }} {% else %}Invalid Post{% endif %}{% endblock %}
+
+{% block blog_entries %}
+
+{% if alert_message %}
+<div class="row">
+    <div class="alert alert-info span8">
+        <a class="close" data-dismiss="alert">&times;</a>
+        <strong>{{ _("Information") }}:</strong> 
+        <br/>
+        {{ alert_message }}
+    </div>
+</div>
+{% endif %}
+
+
+
+    {% if post %}
+
+{% include 'post_block.html' %}
+        
+    <!-- comments section here -->
+    <div class="ctop"></div>
+    <div class="box">
+        <h4 id="comments">{{ comments.count() }} {{ _("Responses to") }} "{{ post.title }}":</h4>
+        <ol class="commentlist">
+            {% for comment in comments %}
+            <li class="alt" id="comment-226002">
+                <div class="comments"><a href="{{ comment.weburl }}" target="_blank">{{ comment.author }}</a> On <small class="commentmetadata">{{ comment.date|datetime }}</small>
+                <br />
+                <p>
+                	{{ comment.content }}
+                </p>
+                </div>
+                <div class="clear"></div>
+		        <div class="space"></div>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+    <div class="cbottom"></div>
+    <div class="space"></div>
+    <!-- all comments over -->
+
+    <!-- leave comment section -->
+    <div class="ctop"></div>
+    <div class="box">
+	<form class="form-horizontal" action="" method="post" id="commentform">
+	<fieldset>
+	    <h4 id="respond">Leave a Reply</h4>
+		<div class="control-group">
+			<label class="control-label" for="author">{{ _("Name") }}</label>
+			<div class="controls">
+				<input type="text" class="input-medium" id="author" name="author" placeholder="Required *">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="email">{{ _("Email") }}</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" id="email" name="email" placeholder="Your email won't be published">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="weburl">{{ _("Website") }}</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" id="weburl" name="weburl"  placeholder="click your comment will land your website">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="comment">{{ _("Comment") }}</label>
+			<div class="controls">
+				<textarea class="input-xxlarge" id="comment" name="comment" rows="5"></textarea>
+			</div>
+		</div>
+	
+	  	<!-- google recaptcha -->
+		<div class="control-group">
+			<label class="control-label" for="comment">{{ _("reCAPTCHA") }}</label>
+			<div class="controls">
+			  <script type="text/javascript"
+			     src="http://www.google.com/recaptcha/api/challenge?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF">
+			  </script>
+			  <noscript>
+			     <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LdwFdISAAAAAIoysBZhs7s31nnWNJEpkor30mEF"
+			         height="300" width="500" frameborder="0"></iframe><br>
+			     <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+			     </textarea>
+			     <input type="hidden" name="recaptcha_response_field"
+			         value="manual_challenge">
+			  </noscript>
+			</div>
+		</div>
+	  	<!-- google recaptcha -->
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Add Comment</button>
+		</div>
+	</fieldset>
+	<input type="hidden" name="post_id" value="{{ post.key().id() }}" />
+	</form>
+    </div> <!-- end of box //-->
+    <div class="cbottom"></div>
+
+    {% else %} <!-- if entry -->
+        <div class="ctop"></div>
+        <div class="box">
+        <h2>Not Found</h2>
+        <p>Sorry, but you are looking for something that isn't here.</p>
+        </div>
+        <div class="clear"></div>
+        <div class="cbottom"></div>
+        <div class="space"></div>
+    {% endif %}<!-- end entry -->
+
+{% endblock %}

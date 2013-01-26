@@ -1,0 +1,59 @@
+
+      body {
+        padding-top: 0px;
+        padding-bottom: 40px;
+      }
+
+      /* Custom container */
+      .container-narrow {
+        margin: 0 auto;
+        max-width: 800px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+
+
+/*...... entry ........*/
+.ctop { height:17px; background:url(/static/images/ctop.gif) no-repeat; margin-bottom:-12px;}
+.cbottom { height:17px; background:url(/static/images/cbottom.gif) no-repeat; margin-top:-12px; }
+.box { padding:10px; background:#fdfdfd; border-left:2px solid  #f0f0f0; border-right:2px solid  #f0f0f0;}
+.box span.date { font-size:11px; font-weight:normal; padding-left:10px; }
+.box p.dpost { display:block; background:#f6f6f6; padding:5px 5px 5px 10px; margin:10px 0 0 0; clear:both;}
+.box p.dpost a { font-weight:normal; }
+.box p a { font-weight:bold;}
+.box p { }
+.en_body{padding:8px;font-size:1.1em;line-height:1.6}
+.meta { display:block; background:#f6f6f6; padding:10px; margin:10px 0 5px 0; }
+.meta p { padding-bottom:10px;}
+.space { display:block; height:15px;}
+.nifty {  display:block; padding:5px; margin-bottom:5px; background:#e4f2fd; border:1px solid #f0f0f0;}
+.box img { border:1px solid #dadada; padding:3px;}
+.box img.wp-smiley { border:none; vertical-align:middle;}
+
+
+/*...... comments ........*/
+h4#respond { font:1.3em Georgia, serif; margin-bottom:30px; background:#fcfcfc; display:block; padding:5px; border-bottom:1px dashed #ccc; text-transform:uppercase; }
+

@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Comments Management{% endblock %}
+
+{% block admin_content %}
+
+<div id="posts_container" class="span10 offset1">
+        
+        <div class="alert alert-info" id="alert-message" style="display:none">
+            <a class="close" data-dismiss="alert">&times;</a>
+            <strong>{{ _("Information") }}:</strong> 
+            <br/>
+            <p id="alert-message-text"></p>
+        </div>
+
+    <table class="table table-hover">
+        <caption><h3 class="pull-left">All Comments for Your Blog:</h3></caption>
+        <thead class="">
+            <tr>
+                <td>{{ _("Entry") }}</td>
+                <td>{{ _("Author") }}</td>
+                <td>{{ _("Email") }}</td>
+                <td>{{ _("Website") }}</td>
+                <td>{{ _("Content") }}</td>
+                <td>{{ _("IP") }}</td>
+                <td>{{ _("Date") }}</td>
+                <td>{{ _("Operations") }}</td>
+            </tr>
+        </thead>
+        <tbody>
+    {% for comment in comments %}
+        <tr class="" id="comment_{{ comment.key().id() }}">
+            <td>{{ comment.entry.title }}</td>
+            <td>{{ comment.author }}</td>
+            <td>{{ comment.email }}</td>
+            <td>{{ comment.weburl }}</td>
+            <td>{{ comment.content }}</td>
+            <td>{{ comment.ip }}</td>
+            <td>{{ comment.date|datetime }}</td>
+            <td>
+                <div class="btn-group">
+                    <a class="btn btn-mini btn-danger" onClick="deleteComment({{ comment.key().id() }})">Delete</a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+</div><!-- posts_container -->
+
+{% endblock %}
+
+    {% block extra_js_block %}
+    <script type="text/javascript">
+    function deleteComment(comment_id)
+    {
+        $.post("/admin/comments", {"comment_id":comment_id, "operation":"delete"},
+          function (data, textStatus)
+          {
+              // result = {'message': ""}
+              $('#alert-message-text').html(data['message']);
+              $("#alert-message").toggle(true);
+              $("#comment_" + comment_id).remove();
+          }, "json");
+    }
+    </script>
+
+    {% endblock %}

@@ -1,0 +1,14 @@
+
+<div class="ctop"></div>
+<div class="box">
+    <div id="post-{{post.key().id()}}">
+	    <div class="nifty"><h3><a href="/post/{{ post.slug }}" rel="bookmark" title="Permanent Link to {{post.title}}">{{post.title}}</a><span class="date">{{post.date|datetime}}</span></h3></div>
+		<div class="en_body">
+			{{post.content}}
+		</div>
+		<div class="meta">{{ _("Posted in") }} <a href="/cate/{{post.category.slug}}">{{ post.category.name }}</a> | {%if self.is_admin%}<a href="{{post.edit_url}}">Edit</a> | {%endif%} <a href="/post/{{post.slug}}#comments">{{ _("Comments") }}({{post.commentcount}})&#187;</a>
+		</div> <!-- meta //-->
+	</div> <!-- end of post-key-id -->
+</div><!-- end of box -->
+<div class="cbottom"></div>
+<div class="space"></div>

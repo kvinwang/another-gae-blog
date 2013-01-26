@@ -1,0 +1,28 @@
+<HTML>
+    <head>
+        <link href="/static/prettify/prettify.css" type="text/css" rel="stylesheet"/>
+        <script type="text/javascript" src="/static/prettify/prettify.js"></script>
+    </head>
+    <Body onload="prettyPrint()">
+        <pre class="prettyprint lang-python linenums:4">
+class Admin(RequestHandler):
+    '''
+    classdocs
+    '''
+    
+    def get(self):
+        template_values = {}
+        template_values['entry'] = ""
+        return self.response.out.write(render_template("entry.html", template_values, "", True))
+
+class NewPost(RequestHandler):
+    def get(self):
+        template_values = {}
+        template_values['entry'] = ""
+        return self.response.out.write(render_template("post.html", template_values, "", True))
+    
+    def post(self):
+        pass
+        </pre>
+    </body>
+</html>

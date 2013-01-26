@@ -1,0 +1,79 @@
+this is step by step guide for jinja2 i18n integration:
+
+1. install jinja2, babel, and pytz in your local env
+this is different with what you've already had in GAE environment.
+
+$ pip install babel
+$ pip install pytz
+$ pip install jinja2
+
+2. verify jinja2 has installed extension for babel properly
+
+>>> from pkg_resources import iter_entry_points
+>>> for ep in iter_entry_points('babel.extractors'):
+...     print ep
+...
+ignore = babel.messages.extract:extract_nothing
+python = babel.messages.extract:extract_python
+javascript = babel.messages.extract:extract_javascript
+jinja2 = jinja2.ext:babel_extract [i18n]
+
+make sure you have something like: jinja2 = jinja2.ext:babel_extract [i18n]
+
+3. create config for babel babel.config
+
+[python: **.py]
+
+[jinja2: **.html]
+encoding = utf-8
+
+4. load i18n extension in jinja2 and set locale for i18n
+
+	from webapp2_extras import i18n
+	# set locale
+    locale = self.request.GET.get('locale', 'en_US')
+    i18n.get_i18n().set_locale(locale)
+
+	# load jinja2 i18n extersion
+    jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(templates_path), extensions=['jinja2.ext.i18n'])
+    jinja_environment.install_gettext_translations(i18n)
+
+5. use {% trans %} tags in jinja2 template
+
+{{ _("Home") }}
+
+or
+
+gettext("Home") in .py files
+
+6. run babel with config file
+
+C:\Python27\Scripts\pybabel -v extract -F babel.config -o ./locale/messages.pot ./
+
+now babel should be able to extract {% trans %} tags from Jinja2 template files (.html)
+
+7. generate / update locale files
+C:\Python27\Scripts\pybabel init -l zh_CN -d ./locale -i ./locale/messages.pot
+or
+C:\Python27\Scripts\pybabel update -l zh_CN -d ./locale/ -i ./locale/messages.pot
+
+you should get locale/zh_CN/LC_MESSAGES/message.po ==> please modify this file for i18n text
+
+please do NOT use "generate" again after you've modified generated files
+
+8. compile locale files 
+
+C:\Python27\Scripts\pybabel compile -f -d ./locale
+
+you should get locale/zh_CN/LC_MESSAGES/message.mo finally
+
+9. if you want to use jinja2.i18n in GAE environment, you will have to put babel and pytz packages with your source code since GAE does not have them by default
+
+==================
+
+here are several links which might be helpful:
+
+https://webapp-improved.appspot.com/tutorials/i18n.html
+http://jinja.pocoo.org/docs/integration/
+https://groups.google.com/forum/?fromgroups=#!topic/pocoo-libs/Gn3tMHMxc0U
+http://fgda.pl/post/3/jinja2-internationalization-in-django

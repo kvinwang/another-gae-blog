@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Categories Management{% endblock %}
+
+{% block admin_content %}
+<div id="links_container" class="span8 offset2">
+
+<div class="alert alert-info" style="display:none">
+    <a class="close" data-dismiss="alert">&times;</a>
+    <strong>Information!</strong> 
+    <p id="alert-info-message"></p>
+</div>
+
+
+<table class="table table-hover">
+    <caption><h3 class="pull-left">Categories for this website:</h3></caption>
+    <thead class="">
+        <tr>
+            <td>{{ _("Name") }}</td>
+            <td>{{ _("Slug") }}</td>
+            <td>{{ _("Operations") }}</td>
+        </tr>
+    </thead>
+    <tbody id="categories">
+{% for cate in categories %}
+{% include 'category_block.html' %}
+{% endfor %}
+
+    </tbody>
+</table>
+
+    
+<form class="form-horizontal" action="" method="post" id="category">
+    <fieldset>
+        <legend><h3>Add New Category:</h3></legend>
+        <div class="control-group">
+            <label class="control-label" for="cate_name">{{ _("Name") }}</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="cate_name" id="cate_name" value="" placeholder="Category name">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="cate_slug">{{ _("Slug") }}</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="cate_slug" id="cate_slug" value="" placeholder="Slug for Category">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="category_submit">Save</button>
+            <input type="hidden" name="current_cate_id" id="current_cate_id" value="">
+        </div>
+    </fieldset>
+</form>                
+</div><!-- links_container -->
+
+{% endblock %}
+
+    {% block extra_js_block %}
+    <script  type="text/javascript">
+    // set click function for submit button in form
+    $("button#category_submit").click(function updateCategory(event) {
+        $.ajax({
+            url: '/admin/categories',
+            type: 'post',
+            dataType: 'json',
+            data: $('form#category').serialize(),
+            success: function(data, state) {
+                // show alert message
+                $("#alert-info-message").html(data.message);
+                $(".alert-info").toggle(true);
+
+                // for updating category, update existed cate in the list
+                var cate_id = $("form #current_cate_id").val();
+                if(cate_id != "") {
+                    // update category in the list
+                    $("#cate_" + cate_id + " #name").text($("form #cate_name").val())
+                    $("#cate_" + cate_id + " #slug").text($("form #cate_slug").val());
+                }
+
+                // for adding category, add new cate to the list
+                $("tbody#categories").append(data.content)
+                
+                // clear form
+                document.getElementById("category").reset();
+                $("form#category #current_cate_id").val("");
+            },
+            error: function(e) {
+                alert(e);
+            },
+            beforeSend: function() {
+                if($("#cate_name").val() == "") {
+                    alert("Category Name can't be empty");
+                    return false;
+                }
+                if($("#cate_slug").val() == "") {
+                    alert("Category Slug can't be empty");
+                    return false;
+                }
+            }
+        });
+        // remove default function of submit button
+        event.preventDefault();
+    });
+
+    function editCategory(cate_id) {
+        $("form #cate_name").val($("#cate_" + cate_id + " #name").text());
+        $("form #cate_slug").val($("#cate_" + cate_id + " #slug").text());
+        $("form #current_cate_id").val(cate_id);
+    }
+
+    function deleteCategory(cate_id) {
+        $.ajax({
+            url: '/admin/categories',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                "current_cate_id": cate_id,
+                "operation": "delete"
+            },
+            success: function(data, state) {
+                // show alert message
+                $("#alert-info-message").html(data.message);
+                $(".alert-info").toggle(true);
+                // remove tr for cate_id
+                if (data.status == 'success') {
+                    // don't remove this unless status == 'success'
+                    $("tr#cate_" + cate_id).remove();
+                }
+            }
+        });
+    }
+
+    </script>
+    {% endblock %}
